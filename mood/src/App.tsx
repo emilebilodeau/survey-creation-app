@@ -1,8 +1,17 @@
+// NOTE: this contains a test component AppOld - not to be used for project
+
+
+// NOTE: import and insert here any training file desired
+// however, keep in mind some may fail if they required arguments
+// or throw errors if they do not take arguments
 import Message from './components/Message';
 import ListGroup from './components/ListGroup';
 import ListGroup2 from './components/ListGroup2';
+import Alert from './components/Alert';
 
-function App() {
+// testing/learning components
+function AppOld() {
+  // the following 3 variables are for ListGroup.tsx and ListGroup2.tsx
   let items = ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"]
   let heading = 'Cities'
 
@@ -12,14 +21,15 @@ function App() {
     console.log(item);
   }
 
-  // can also use self closing syntax, <ListGroup />
-  // NOTE: import and insert here the ListGroup{num} learning file desired
-  // however, some ListGroup may fail/show errors if they take no arguments
   return (
     <div>
-      <ListGroup2 items={items} heading={heading} onSelectItem={handleSelectItem}></ListGroup2>;
+      {/*  can also use self closing syntax, <ListGroup /> */}
+      {/* <ListGroup2 items={items} heading={heading} onSelectItem={handleSelectItem}></ListGroup2>; */}
+      <Alert>
+        Hello <span>World</span>
+      </Alert>
     </div>
   )
 }
 
-export default App;
+export default AppOld;
