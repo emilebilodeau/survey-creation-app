@@ -29,7 +29,7 @@ function ListGroup2({items, heading, onSelectItem}:Props) {
 
   // using the useState hook we can tell React that this component can 
   // have data or states that change over time. there are multiple hooks available
-  // ***unsure what is the -1 being initially passed to this hook***
+  // ***unsure what is the -1 being initially passed to this hook. default value?***
   // each component have their own states
   let arr = useState(-1);
   // this array will have 2 elements:

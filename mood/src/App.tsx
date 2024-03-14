@@ -8,8 +8,11 @@ import Message from './components/Message';
 import ListGroup from './components/ListGroup';
 import ListGroup2 from './components/ListGroup2';
 import Alert from './components/Alert';
+import Button from './components/Button';
 
-// testing/learning components
+import { useState } from 'react';
+
+// testing/learning component
 function AppOld() {
   // the following 3 variables are for ListGroup.tsx and ListGroup2.tsx
   let items = ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"]
@@ -21,13 +24,21 @@ function AppOld() {
     console.log(item);
   }
 
+  // for the Alert/Button combo
+  const [alertVisible, setAlertVisibility] = useState(false);
+
   return (
     <div>
       {/*  can also use self closing syntax, <ListGroup /> */}
       {/* <ListGroup2 items={items} heading={heading} onSelectItem={handleSelectItem}></ListGroup2>; */}
+      {/* 
+      below <Alert> shows the use of ReactNode
       <Alert>
         Hello <span>World</span>
       </Alert>
+      */}
+      {alertVisible && <Alert onClose={() => setAlertVisibility(false)}>My alert</Alert>}
+      <Button onClick={() => setAlertVisibility(true)}>My Button</Button>
     </div>
   )
 }
