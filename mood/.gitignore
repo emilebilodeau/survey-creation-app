@@ -25,3 +25,5 @@ dist-ssr
 
 # custom
 notes.txt
+src/components/test.jsx
+src/components/test.js
