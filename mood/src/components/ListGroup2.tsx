@@ -10,6 +10,8 @@ import { useState } from "react";
 // {items: [], heading: string}
 // can use an interface, which is TypeScript specific
 // ***unsure on the implication of interface; it has to live outside the func?***
+// IMPORTANT: Props, short for properties, seemed very similar to context in Django
+// however seems even more useful because you can pass functions to it
 interface Props {
     // this defines the type of items as an array of strings
     items: string[];

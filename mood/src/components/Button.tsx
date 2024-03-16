@@ -10,7 +10,7 @@ interface Props {
     onClick: () => void;
 }
 
-// can add default values to the Props
+// can add default values to the Props, as seen for color
 const Button = ({children, color = 'primary', onClick}: Props) => {
   return (
     <button className={'btn btn-' + color} onClick={onClick}>{children}</button>
