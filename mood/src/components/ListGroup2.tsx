@@ -27,7 +27,7 @@ function ListGroup2({items, heading, onSelectItem}:Props) {
   
   // from the notes on React, we can see the following is an anti-pattern in React
   // heading = "I changed this";
-  // don't do it. the heading is defined in the App() component
+  // don't do it. the heading is defined in the App() component, accessed through Props
 
   // using the useState hook we can tell React that this component can 
   // have data or states that change over time. there are multiple hooks available
