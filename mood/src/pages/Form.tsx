@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
 const Form = () => {
-  return <h1>Form</h1>;
-};
+  return (
+    <div>Form</div>
+  )
+}
 
-export default Form;
+export default Form
