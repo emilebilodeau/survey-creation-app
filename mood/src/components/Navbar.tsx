@@ -1,22 +1,32 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav id="navbar" className="nav">
+    <nav id="main-navbar" className="nav">
       <Link to="/" className="site-title">
         Home
       </Link>
       <ul>
-        <li>
-          <Link to="/form">Form</Link>
-        </li>
-        <li>
-          <Link to="/data">Data</Link>
-        </li>
+        <CustomLink to="/form">Form</CustomLink>
+        <CustomLink to="/data">Data</CustomLink>
       </ul>
     </nav>
   );
 };
+
+// this function is essentially just used to add the active class to the Link element
+// of the current page. it uses react hooks to retrieve current url
+// TODO: come back and do the type assignment correctly. also include props as an argument
+function CustomLink({ to, children }: { to: any; children: any }) {
+  const resolvedPath = useResolvedPath(to);
+  const isActive = useMatch({ path: resolvedPath.pathname, end: true });
+
+  return (
+    <li className={isActive ? "active" : ""}>
+      <Link to={to}>{children}</Link>
+    </li>
+  );
+}
 
 export default Navbar;

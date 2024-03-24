@@ -9,12 +9,12 @@ body {
 /* 
 all of the below css relates to the Navbar component
 
-could not apply the padding correctly of 0 1rem; without !important unless i added an id 
-to the nav element in Navbar component. possible that Bootstrap already has a className
-called nav that had higher precedence 
+NOTE: could not apply the padding correctly of 0 1rem; without !important unless i added 
+an id to the nav element in Navbar component. possible that Bootstrap already has a 
+className called nav that had higher precedence 
 */
 
-#navbar {
+#main-navbar {
     background-color: #333;
     color: white;
     display: flex;
@@ -43,6 +43,10 @@ called nav that had higher precedence
     display: flex;
     align-items: center;
     padding: .25rem;
+}
+
+.nav a:hover {
+    color:inherit
 }
 
 .nav li.active {
