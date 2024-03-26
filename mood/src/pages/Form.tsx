@@ -1,5 +1,6 @@
 import React from "react";
 import YesNoQ from "../components/YesNoQ";
+import TextQ from "../components/TextQ";
 
 const Form = () => {
   // NOTE: hard coding these questions for now, not sure where i should put them
@@ -13,6 +14,12 @@ const Form = () => {
     "Did at least 1 thing outside of routine",
     "had a meaningful social interaction",
     "drank more than 3 drinks the day before",
+  ];
+
+  let textQuestions = [
+    "Hours of sleep",
+    "Amount of intentional exercise and type",
+    "Estimate of time spent ruminating",
   ];
 
   return (
@@ -66,6 +73,9 @@ const Form = () => {
         {/* TODO: find a better key than the index, usually a last resort */}
         {yesNoQuestions.map((item, index) => (
           <YesNoQ question={item} key={index} />
+        ))}
+        {textQuestions.map((item, index) => (
+          <TextQ question={item} key={index} />
         ))}
       </div>
     </>
