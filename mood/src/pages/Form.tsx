@@ -2,24 +2,35 @@ import React from "react";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 
-const Form = () => {
-  // NOTE: hard coding these questions for now, not sure where i should put them
-  // could store in database and retrieve here - figure out later
-  // TODO: consider changing this data structure: should have a single array called
-  // questions, which is a list of dict, that would include the question and the type
-  let yesNoQuestions = [
-    "Disrupted Sleep",
-    "Spent at least 1 hour outside the house",
-    "Meditated atleast 5 minutes",
-    "Did at least 1 thing outside of routine",
-    "had a meaningful social interaction",
-    "drank more than 3 drinks the day before",
-  ];
+interface Item {
+  question: string;
+  type: string;
+  id: number;
+}
 
-  let textQuestions = [
-    "Hours of sleep",
-    "Amount of intentional exercise and type",
-    "Estimate of time spent ruminating",
+const Form = () => {
+  // NOTE: hard coding these questions for now, not sure where i should put them could store in database and retrieve here - figure out later
+  const questions: Item[] = [
+    { question: "Hours of sleep", type: "text", id: 1 },
+    { question: "Disrupted Sleep", type: "yesNo", id: 2 },
+    {
+      question: "Amount of intentional exercise and type",
+      type: "text",
+      id: 3,
+    },
+    {
+      question: "Spent at least 1 hour outside the house",
+      type: "yesNo",
+      id: 4,
+    },
+    { question: "Meditated atleast 5 minutes", type: "yesNo", id: 5 },
+    {
+      question: "Did at least 1 thing outside of routine",
+      type: "yesNo",
+      id: 6,
+    },
+    { question: "had a meaningful social interaction", type: "yesNo", id: 7 },
+    { question: "Estimate of time spent ruminating", type: "text", id: 8 },
   ];
 
   return (
@@ -70,13 +81,13 @@ const Form = () => {
           <label htmlFor="very-dissatisfied">Very Dissatisfied</label>
         </div>
         {/* leave the above there for now, add components below */}
-        {/* TODO: find a better key than the index, usually a last resort */}
-        {yesNoQuestions.map((item, index) => (
-          <YesNoQ question={item} key={index} />
-        ))}
-        {textQuestions.map((item, index) => (
-          <TextQ question={item} key={index} />
-        ))}
+        {questions.map((item) => {
+          if (item.type === "yesNo") {
+            return <YesNoQ question={item.question} key={item.id} />;
+          } else if (item.type === "text") {
+            return <TextQ question={item.question} key={item.id} />;
+          }
+        })}
       </div>
     </>
   );

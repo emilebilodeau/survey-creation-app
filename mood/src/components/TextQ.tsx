@@ -4,6 +4,8 @@ interface Props {
   question: string;
 }
 
+// NOTE: this component might become problematic for datatypes...
+// i will want numbers here mostly, not strings
 const TextQ = ({ question }: Props) => {
   let [inputValue, setInputValue] = useState("");
 
