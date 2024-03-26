@@ -7,7 +7,7 @@ body {
 }
 
 /* 
-all of the below css relates to the Navbar component
+Navbar component css
 
 NOTE: could not apply the padding correctly of 0 1rem; without !important unless i added 
 an id to the nav element in Navbar component. possible that Bootstrap already has a 
@@ -56,3 +56,30 @@ className called nav that had higher precedence
 .nav li:hover {
     background-color: #777;
 }
+
+/* 
+Form page css 
+*/
+
+.survey-box {
+    border: 2px solid #007BFF;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f0f8ff;
+  }
+  
+  .question {
+    margin-bottom: 20px;
+  }
+  
+  .question p {
+    font-weight: bold;
+  }
+  
+  .question label {
+    margin-right: 10px;
+  }
+  
+  /* Additional styling can be added as needed */
+  
