@@ -76,3 +76,10 @@ a className called nav that had higher precedence  */
   .question label {
     margin-right: 10px;
   }
+
+  .form-submit {
+    margin-bottom: 20px;
+    background-color: #f0f8ff;
+    color: black;
+    border-radius: 8px;
+  }
