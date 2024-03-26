@@ -1,14 +1,29 @@
 import React from "react";
 
-const YesNoQ = () => {
+interface Props {
+  question: string;
+}
+
+// TODO: try to figure out a better id and name for the inputs...
+const YesNoQ = ({ question }: Props) => {
   return (
     <div className="question">
-      <p>Disrupted sleep</p>
-      <input type="radio" id="yes" value="yes"></input>
-      <label htmlFor="yes">Yes</label>
+      <p>{question}</p>
+      <input
+        type="radio"
+        id={`yes-${question}`}
+        name={`answer-${question}`}
+        value="yes"
+      ></input>
+      <label htmlFor={`yes-${question}`}>Yes</label>
       <br />
-      <input type="radio" id="no" value="no"></input>
-      <label htmlFor="no">No</label>
+      <input
+        type="radio"
+        id={`no-${question}`}
+        name={`answer-${question}`}
+        value="no"
+      ></input>
+      <label htmlFor={`no-${question}`}>No</label>
     </div>
   );
 };

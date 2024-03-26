@@ -2,11 +2,24 @@ import React from "react";
 import YesNoQ from "../components/YesNoQ";
 
 const Form = () => {
+  // NOTE: hard coding these questions for now, not sure where i should put them
+  // could store in database and retrieve here - figure out later
+  // TODO: consider changing this data structure: should have a single array called
+  // questions, which is a list of dict, that would include the question and the type
+  let yesNoQuestions = [
+    "Disrupted Sleep",
+    "Spent at least 1 hour outside the house",
+    "Meditated atleast 5 minutes",
+    "Did at least 1 thing outside of routine",
+    "had a meaningful social interaction",
+    "drank more than 3 drinks the day before",
+  ];
+
   return (
     <>
       <div className="survey-box">
         <h2>Form Questions</h2>
-        {/* add questions here */}
+        {/* add questions here. should put them in a list? */}
         <div className="question">
           <p>How satisfied are you with our service?</p>
           <input
@@ -50,7 +63,10 @@ const Form = () => {
           <label htmlFor="very-dissatisfied">Very Dissatisfied</label>
         </div>
         {/* leave the above there for now, add components below */}
-        <YesNoQ />
+        {/* TODO: find a better key than the index, usually a last resort */}
+        {yesNoQuestions.map((item, index) => (
+          <YesNoQ question={item} key={index} />
+        ))}
       </div>
     </>
   );
