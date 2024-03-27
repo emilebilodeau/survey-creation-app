@@ -2,15 +2,15 @@ import React, { useState } from "react";
 
 interface Props {
   question: string;
+  data: object;
+  updateData: Function;
+  id: number;
 }
-
-// TODO: change id and name once questions have real ids
-const YesNoQ = ({ question }: Props) => {
-  const [response, SetResponse] = useState(null);
-
+const YesNoQ = ({ question, data, updateData, id }: Props) => {
   let changeResponse = (event: any) => {
     const newResponse = event.target.value;
-    SetResponse(newResponse);
+    const newData = { ...data, [question]: newResponse };
+    updateData(newData);
   };
 
   return (
@@ -18,21 +18,21 @@ const YesNoQ = ({ question }: Props) => {
       <p>{question}</p>
       <input
         type="radio"
-        id={`yes-${question}`}
-        name={`answer-${question}`}
+        id={`yes-${id}`}
+        name={`answer-${id}`}
         value="yes"
         onClick={changeResponse}
       ></input>
-      <label htmlFor={`yes-${question}`}>Yes</label>
+      <label htmlFor={`yes-${id}`}>Yes</label>
       <br />
       <input
         type="radio"
-        id={`no-${question}`}
-        name={`answer-${question}`}
+        id={`no-${id}`}
+        name={`answer-${id}`}
         value="no"
         onClick={changeResponse}
       ></input>
-      <label htmlFor={`no-${question}`}>No</label>
+      <label htmlFor={`no-${id}`}>No</label>
     </div>
   );
 };

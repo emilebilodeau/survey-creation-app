@@ -3,24 +3,29 @@ import { useState } from "react";
 
 interface Props {
   question: string;
+  data: object;
+  updateData: Function;
+  id: number;
 }
 
-const TenQ = ({ question }: Props) => {
+const TenQ = ({ question, data, updateData, id }: Props) => {
   const [rating, setRating] = useState(null);
 
   // TODO: possibly improve this code later - might be a more graceful way of doing this
   const handleRatingClick = (value: any) => {
     if (rating) {
-      let previous = document.getElementById(`${rating}-button`);
+      let previous = document.getElementById(`${rating}-button-${id}`);
       if (previous) {
         previous.className = "rating-button btn btn-secondary";
       }
     }
     setRating(value);
-    const element = document.getElementById(`${value}-button`);
+    const element = document.getElementById(`${value}-button-${id}`);
     if (element) {
       element.className = "rating-button btn btn-primary";
     }
+    const newData = { ...data, [question]: value };
+    updateData(newData);
   };
 
   const renderButtons = () => {
@@ -29,7 +34,7 @@ const TenQ = ({ question }: Props) => {
       buttons.push(
         <button
           className="rating-button btn btn-secondary"
-          id={`${i}-button`}
+          id={`${i}-button-${id}`}
           key={i}
           onClick={() => handleRatingClick(i)}
           style={{ marginRight: "5px" }}
