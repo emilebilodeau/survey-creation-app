@@ -13,6 +13,7 @@ const Form = () => {
   // NOTE: hard coding these questions for now, not sure where i should put them. could
   // store in database and retrieve here - figure out later
   const questions: Item[] = [
+    { question: "How did you feel overall today", type: "ten", id: 9 },
     { question: "Hours of sleep", type: "text", id: 1 },
     { question: "Disrupted Sleep", type: "yesNo", id: 2 },
     {
@@ -31,57 +32,19 @@ const Form = () => {
       type: "yesNo",
       id: 6,
     },
-    { question: "had a meaningful social interaction", type: "yesNo", id: 7 },
+    { question: "Had a meaningful social interaction", type: "yesNo", id: 7 },
     { question: "Estimate of time spent ruminating", type: "text", id: 8 },
+    {
+      question: "Drank more than 3 drinks the day before",
+      type: "yesNo",
+      id: 10,
+    },
   ];
 
   return (
     <>
       <div className="survey-box">
         <h2>Form Questions</h2>
-        {/* TODO delete this question later */}
-        <div className="question">
-          <p>How satisfied are you with our service?</p>
-          <input
-            type="radio"
-            id="very-satisfied"
-            name="satisfaction"
-            value="very-satisfied"
-          />
-          <label htmlFor="very-satisfied">Very Satisfied</label>
-          <br />
-          <input
-            type="radio"
-            id="satisfied"
-            name="satisfaction"
-            value="satisfied"
-          />
-          <label htmlFor="satisfied">Satisfied</label>
-          <br />
-          <input
-            type="radio"
-            id="neutral"
-            name="satisfaction"
-            value="neutral"
-          />
-          <label htmlFor="neutral">Neutral</label>
-          <br />
-          <input
-            type="radio"
-            id="dissatisfied"
-            name="satisfaction"
-            value="dissatisfied"
-          />
-          <label htmlFor="dissatisfied">Dissatisfied</label>
-          <br />
-          <input
-            type="radio"
-            id="very-dissatisfied"
-            name="satisfaction"
-            value="very-dissatisfied"
-          />
-          <label htmlFor="very-dissatisfied">Very Dissatisfied</label>
-        </div>
         {questions.map((item) => {
           if (item.type === "yesNo") {
             return <YesNoQ question={item.question} key={item.id} />;
@@ -102,7 +65,6 @@ export default Form;
 /* 
 
 left to complete:
-- complete 1 - 10 question component
 - submit functionality to retrieve all the data input (just in a console.log for now)
 
 */
