@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import Data from "./pages/Data";
 
+// TODO: come back later and fix every "any" type assignment
+
 function App() {
   return (
     <>
