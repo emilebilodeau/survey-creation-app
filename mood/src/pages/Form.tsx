@@ -41,6 +41,12 @@ const Form = () => {
     },
   ];
 
+  const submitForm = () => {
+    const response = {};
+
+    console.log("submitted");
+  };
+
   return (
     <>
       <div className="survey-box">
@@ -55,7 +61,9 @@ const Form = () => {
           }
         })}
       </div>
-      <button className="form-submit">Submit</button>
+      <button className="form-submit" onClick={submitForm}>
+        Submit
+      </button>
     </>
   );
 };

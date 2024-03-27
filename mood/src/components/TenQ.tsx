@@ -8,8 +8,7 @@ interface Props {
 const TenQ = ({ question }: Props) => {
   const [rating, setRating] = useState(null);
 
-  // TODO: come and do the type assigment correctly. also not sure if there is a
-  // better way... but it works for now
+  // TODO: possibly improve this code later - might be a more graceful way of doing this
   const handleRatingClick = (value: any) => {
     if (rating) {
       let previous = document.getElementById(`${rating}-button`);
