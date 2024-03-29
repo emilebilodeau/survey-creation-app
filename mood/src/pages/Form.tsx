@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import TenQ from "../components/TenQ";
@@ -47,6 +48,19 @@ const Form = () => {
   const updateData = (newData: any) => {
     setData(newData);
   };
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/test");
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const submitForm = () => {
     console.log(data);

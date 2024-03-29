@@ -10,7 +10,7 @@
 3. cd in to the mood folder, and run the following command:
    npm install
 
-4. install next the dependencies for the frontend (bootstrap, react-router-dom)
+4. install next the dependencies for the frontend (bootstrap, react-router-dom, axios)
 
 5. to run the app, from the mood folder type the following command:
    npm run dev
