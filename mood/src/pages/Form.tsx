@@ -3,6 +3,7 @@ import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import TenQ from "../components/TenQ";
+import NumberQ from "../components/NumberQ";
 
 interface Item {
   question: string;
@@ -15,12 +16,12 @@ const Form = () => {
   // store in database and retrieve here - figure out later. also will need to find
   // a way to make ids unique for each question
   const questions: Item[] = [
-    { question: "How did you feel overall today", type: "ten", id: 9 },
-    { question: "Hours of sleep", type: "text", id: 1 },
+    { question: "How did you feel overall today", type: "linear", id: 9 },
+    { question: "Hours of sleep", type: "number", id: 1 },
     { question: "Disrupted Sleep", type: "yesNo", id: 2 },
     {
-      question: "Amount of intentional exercise and type",
-      type: "text",
+      question: "Amount of intentional exercise in minutes",
+      type: "number",
       id: 3,
     },
     {
@@ -35,11 +36,20 @@ const Form = () => {
       id: 6,
     },
     { question: "Had a meaningful social interaction", type: "yesNo", id: 7 },
-    { question: "Estimate of time spent ruminating", type: "text", id: 8 },
+    {
+      question: "Estimate of time spent ruminating in minutes",
+      type: "number",
+      id: 8,
+    },
     {
       question: "Drank more than 3 drinks the day before",
       type: "yesNo",
       id: 10,
+    },
+    {
+      question: "Extra (any notable events, good or bad?)",
+      type: "text",
+      id: 11,
     },
   ];
 
@@ -97,9 +107,19 @@ const Form = () => {
                 key={item.id}
               />
             );
-          } else if (item.type === "ten") {
+          } else if (item.type === "linear") {
             return (
               <TenQ
+                question={item.question}
+                data={data}
+                updateData={updateData}
+                id={item.id}
+                key={item.id}
+              />
+            );
+          } else if (item.type === "number") {
+            return (
+              <NumberQ
                 question={item.question}
                 data={data}
                 updateData={updateData}

@@ -7,8 +7,6 @@ interface Props {
   id: number;
 }
 
-// NOTE: this component might become problematic for datatypes...
-// i will want numbers here mostly, not strings
 const TextQ = ({ question, data, updateData, id }: Props) => {
   let changeText = (event: any) => {
     const newValue = event.target.value;

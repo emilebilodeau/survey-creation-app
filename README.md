@@ -18,8 +18,9 @@
 (backend)
 
 1. download mysql server and mysql workbench (or go to https://dev.mysql.com/downloads/mysql/):
-   sudo apt install mysql-server
-   sudo snap install mysql-workbench-community
+
+   - sudo apt install mysql-server
+   - sudo snap install mysql-workbench-community
 
 2. create a backend folder in the root folder
 
@@ -29,8 +30,9 @@
 4. install the dependencies (express, mysql, nodemon, cors)
 
 5. initially in package.json, need the following changes:
-   add "type" : "module" to allow imports
-   in scripts, add "start" : "nodemon index.js" for smoother development
+
+   - add "type" : "module" to allow imports
+   - in scripts, add "start" : "nodemon index.js" for smoother development
 
 6. run following command to start the backend:
    npm start
