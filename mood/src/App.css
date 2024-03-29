@@ -8,10 +8,6 @@ body {
 
 /* Navbar component css */
 
-/* NOTE: could not apply the padding correctly of 0 1rem; without !important unless i 
-added an id to the nav element in Navbar component. possible that Bootstrap already has 
-a className called nav that had higher precedence  */
-
 #main-navbar {
     background-color: #333;
     color: white;
