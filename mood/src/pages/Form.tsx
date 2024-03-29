@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
@@ -89,19 +89,6 @@ const Form = () => {
     setData(newData);
   };
 
-  // const fetchData = async () => {
-  //   try {
-  //     const res = await axios.get("http://localhost:8800/test");
-  //     console.log(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
   const navigate = useNavigate();
 
   const submitForm = async (e: any) => {
@@ -110,10 +97,14 @@ const Form = () => {
     console.log(data);
     console.log("submitted");
 
+    // NOTE: there is an unwanted behaviour where if you type in a text or number input
+    // and delete the input, the payload will contain a key with an empty string
     if (Object.keys(data).length !== questions.length) {
       alert("Please complete all the field");
     } else {
       // in milliseconds
+      // NOTE: seems to be timestamp for the day, prefer to get timestamp current
+      // also likely to get time zone issues with current implementation - fix later
       const timestamp = Date.now();
       const payload = { ...data, timestamp: timestamp };
       try {

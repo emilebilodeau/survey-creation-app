@@ -59,8 +59,7 @@ app.get("/test", (req, res) => {
     })
 });
 
-// NOTE: there must be a better way to do this... figure out during create survey
-// feature implementation
+// TODO: find a better way to do this during survey creation implementation
 app.post('/submit', (req, res) => {
     const q = "INSERT INTO survey_answers (`timestamp`, `mood`, `sleepDisruption`, `exercise`, `outside`, `meditation`, `breakRoutine`, `socialInteraction`, `rumination`, `drank`, `extra`) VALUES (?)";
     const values = [
