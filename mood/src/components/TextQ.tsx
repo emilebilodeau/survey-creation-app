@@ -4,15 +4,14 @@ interface Props {
   question: string;
   data: object;
   updateData: Function;
+  alias: string;
   id: number;
 }
 
-// NOTE: this component might become problematic for datatypes...
-// i will want numbers here mostly, not strings
-const TextQ = ({ question, data, updateData, id }: Props) => {
+const TextQ = ({ question, data, updateData, alias, id }: Props) => {
   let changeText = (event: any) => {
     const newValue = event.target.value;
-    const newData = { ...data, [question]: newValue };
+    const newData = { ...data, [alias]: newValue };
     updateData(newData);
   };
 

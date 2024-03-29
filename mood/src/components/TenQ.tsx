@@ -5,10 +5,11 @@ interface Props {
   question: string;
   data: object;
   updateData: Function;
+  alias: string;
   id: number;
 }
 
-const TenQ = ({ question, data, updateData, id }: Props) => {
+const TenQ = ({ question, data, updateData, alias, id }: Props) => {
   const [rating, setRating] = useState(null);
 
   // TODO: possibly improve this code later - might be a more graceful way of doing this
@@ -24,7 +25,7 @@ const TenQ = ({ question, data, updateData, id }: Props) => {
     if (element) {
       element.className = "rating-button btn btn-primary";
     }
-    const newData = { ...data, [question]: value };
+    const newData = { ...data, [alias]: value };
     updateData(newData);
   };
 

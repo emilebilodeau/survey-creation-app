@@ -25,4 +25,4 @@ dist-ssr
 
 # custom
 notes.txt
-src/components/practice/*
+practice

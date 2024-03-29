@@ -4,12 +4,13 @@ interface Props {
   question: string;
   data: object;
   updateData: Function;
+  alias: string;
   id: number;
 }
-const YesNoQ = ({ question, data, updateData, id }: Props) => {
+const YesNoQ = ({ question, data, updateData, alias, id }: Props) => {
   let changeResponse = (event: any) => {
     const newResponse = event.target.value;
-    const newData = { ...data, [question]: newResponse };
+    const newData = { ...data, [alias]: newResponse };
     updateData(newData);
   };
 
