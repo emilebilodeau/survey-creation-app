@@ -4,14 +4,15 @@ interface Props {
   question: string;
   data: object;
   updateData: Function;
+  alias: string;
   id: number;
 }
 
-const NumberQ = ({ question, data, updateData, id }: Props) => {
+const NumberQ = ({ question, data, updateData, alias, id }: Props) => {
   let changeNumber = (event: any) => {
     const answer = event.target.value;
     const newNumber: number = parseFloat(answer);
-    const newData = { ...data, [question]: newNumber };
+    const newData = { ...data, [alias]: newNumber };
     updateData(newData);
   };
 
