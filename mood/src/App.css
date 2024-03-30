@@ -79,3 +79,9 @@ body {
     color: black;
     border-radius: 8px;
   }
+
+  /* Data page css */
+
+  .data-table {
+    margin-top: 20px;
+  }

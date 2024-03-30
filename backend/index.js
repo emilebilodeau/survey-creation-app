@@ -49,14 +49,24 @@ db.query("SHOW TABLES LIKE 'survey_answers'", (err, result) => {
     }
 })
 
-app.get("/test", (req, res) => {
-    const q = "SELECT * FROM survey_answers"
+app.get("/getdata", (req, res) => {
+    const q = "SELECT * FROM survey_answers";
     db.query(q, (err,data)=> {
         if (err) {
             return res.json(err);
         }
         return res.json(data);
-    })
+    });
+});
+
+app.get("/getcol", (req, res) => {
+    const q = "DESCRIBE survey_answers";
+    db.query(q, (err, data) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(data);
+    });
 });
 
 // TODO: find a better way to do this during survey creation implementation
