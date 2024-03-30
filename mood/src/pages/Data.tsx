@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Data = () => {
+  const [rows, setRows] = useState([]);
+  const [cols, setCols] = useState([]);
+
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/test");
-      console.log(res.data);
+      const r = await axios.get("http://localhost:8800/getdata");
+      const c = await axios.get("http://localhost:8800/getcol");
+      setRows(r.data);
+      setCols(c.data);
     } catch (err) {
       console.log(err);
     }
@@ -15,36 +20,36 @@ const Data = () => {
     fetchData();
   }, []);
 
-  // NOTE: create a component for the table after, passing the data as a prop
+  // TODO: create a component for the table after, passing the data as a prop. also
+  // try to see if there is a better way of generating the rows
   return (
     <table className="data-table table">
       <thead className="table-dark">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          {cols.map((column: any, index) => (
+            <th scope="col" key={index}>
+              {column.Field}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        {rows.map((row: any) => (
+          <tr key={row.id}>
+            <td>{row.id}</td>
+            <td>{row.timestamp}</td>
+            <td>{row.mood}</td>
+            <td>{row.sleepDisruption}</td>
+            <td>{row.exercise}</td>
+            <td>{row.outisde}</td>
+            <td>{row.meditation}</td>
+            <td>{row.breakRoutine}</td>
+            <td>{row.socialInteraction}</td>
+            <td>{row.rumination}</td>
+            <td>{row.drank}</td>
+            <td>{row.extra}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
