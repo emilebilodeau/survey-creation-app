@@ -14,59 +14,58 @@ interface Item {
 }
 
 const Form = () => {
-  // NOTE: hard coding these questions for now, not sure where i should put them. could
-  // store in database and retrieve here - figure out later. also will need to find
-  // a way to make ids unique for each question. the way i use alias might need to
-  // change later when i implement the survey creation feature, but they are in place
-  // to manage the table in the database easier
+  // NOTE: hard coding these questions for now, related to the default table created
+  // in the backend. the way i use alias might need to change later when i implement
+  // the survey creation feature, but they are currently in place to manage the table
+  // in the database easier
   const questions: Item[] = [
     {
       question: "How did you feel overall today",
       type: "linear",
-      id: 9,
+      id: 1,
       alias: "mood",
     },
-    { question: "Hours of sleep", type: "number", id: 1, alias: "sleep" },
+    { question: "Hours of sleep", type: "number", id: 2, alias: "sleep" },
     {
       question: "Disrupted Sleep",
       type: "yesNo",
-      id: 2,
+      id: 3,
       alias: "sleepDisruption",
     },
     {
       question: "Amount of intentional exercise in minutes",
       type: "number",
-      id: 3,
+      id: 4,
       alias: "exercise",
     },
     {
       question: "Spent at least 1 hour outside the house",
       type: "yesNo",
-      id: 4,
+      id: 5,
       alias: "outside",
     },
     {
       question: "Meditated atleast 5 minutes",
       type: "yesNo",
-      id: 5,
+      id: 6,
       alias: "meditation",
     },
     {
       question: "Did at least 1 thing outside of routine",
       type: "yesNo",
-      id: 6,
+      id: 7,
       alias: "breakRoutine",
     },
     {
       question: "Had a meaningful social interaction",
       type: "yesNo",
-      id: 7,
+      id: 8,
       alias: "socialInteraction",
     },
     {
       question: "Estimate of time spent ruminating in minutes",
       type: "number",
-      id: 8,
+      id: 9,
       alias: "rumination",
     },
     {
@@ -91,20 +90,27 @@ const Form = () => {
 
   const navigate = useNavigate();
 
+  // this function ensures the submition does not contain empty values
+  const checkNull = (obj: { [key: string]: any }): boolean => {
+    for (const key in obj) {
+      const value = obj[key];
+      if (value === null || value === "" || Number.isNaN(value)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const submitForm = async (e: any) => {
     e.preventDefault();
 
     console.log(data);
     console.log("submitted");
 
-    // NOTE: there is an unwanted behaviour where if you type in a text or number input
-    // and delete the input, the payload will contain a key with an empty string
-    if (Object.keys(data).length !== questions.length) {
+    if (checkNull(data) || Object.keys(data).length !== questions.length) {
       alert("Please complete all the field");
     } else {
       // in milliseconds
-      // NOTE: seems to be timestamp for the day, prefer to get timestamp current
-      // also likely to get time zone issues with current implementation - fix later
       const timestamp = Date.now();
       const payload = { ...data, timestamp: timestamp };
       try {
@@ -168,10 +174,10 @@ const Form = () => {
             );
           }
         })}
+        <button className="form-submit" onClick={submitForm}>
+          Submit
+        </button>
       </div>
-      <button className="form-submit" onClick={submitForm}>
-        Submit
-      </button>
     </>
   );
 };

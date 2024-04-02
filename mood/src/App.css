@@ -1,9 +1,12 @@
+/* General */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
+    background-color: #0066b2;
 }
 
 /* Navbar component css */
@@ -54,34 +57,51 @@ body {
 /* Form page css */
 
 .survey-box {
-    border: 2px solid #007BFF;
+    border: 2px;
     padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px; /* Rounded corners */
+    margin: 20px auto; /* centers the survey */
+    width: 50%;
+    border-radius: 8px; /* rounded corners */
     background-color: #f0f8ff;
   }
-  
-  .question {
-    margin-bottom: 20px;
-  }
-  
-  .question p {
-    font-weight: bold;
-  }
-  
-  .question label {
-    margin-right: 10px;
-  }
 
-  .form-submit {
-    margin-bottom: 20px;
-    background-color: #f0f8ff;
-    color: black;
-    border-radius: 8px;
-  }
+.form-submit {
+  margin-top: 20px;
+  background-color: #f0f8ff;
+  padding: 10px;
+  width: 20%;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #0066b2;
+}
 
-  /* Data page css */
+/* Question components css */
 
-  .data-table {
-    margin-top: 20px;
-  }
+.question {
+  margin-bottom: 20px;
+}
+
+.question p {
+  font-weight: bold;
+}
+
+.question label {
+  margin-right: 10px;
+}
+
+.rating-button {
+  margin-right: 5px;
+}
+
+/* Table component css */
+
+.data-table {
+  margin-top: 20px;
+  background-color: white;
+  border: 2px solid;
+}
+
+.table-header {
+  background-color: #333;
+  color: white
+}
