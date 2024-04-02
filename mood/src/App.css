@@ -1,9 +1,24 @@
+/* 
+step 5: styling the page
+
+5.1 choose a background color
+5.2 style the navbar
+5.3 style the form page, the survey, and the submit button
+5.4 style the data page, and the table
+
+*/
+
 * {
     box-sizing: border-box;
 }
 
+/* 
+looking for blues...
+bayern blue: #0066b2
+*/
 body {
     margin: 0;
+    background-color: #0066b2;
 }
 
 /* Navbar component css */
@@ -57,6 +72,7 @@ body {
     border: 2px solid #007BFF;
     padding: 20px;
     margin: 20px 0;
+    width: 50%;
     border-radius: 8px; /* Rounded corners */
     background-color: #f0f8ff;
   }
@@ -76,12 +92,16 @@ body {
   .form-submit {
     margin-bottom: 20px;
     background-color: #f0f8ff;
+    padding: 10px;
     color: black;
     border-radius: 8px;
+    border: 2px solid #007BFF;
   }
 
   /* Data page css */
 
   .data-table {
     margin-top: 20px;
+    background-color: white;
+    border: 2px solid black;
   }
