@@ -1,3 +1,4 @@
+/* General */
 
 * {
     box-sizing: border-box;
@@ -63,7 +64,19 @@ body {
     border-radius: 8px; /* rounded corners */
     background-color: #f0f8ff;
   }
-  
+
+.form-submit {
+  margin-top: 20px;
+  background-color: #f0f8ff;
+  padding: 10px;
+  width: 20%;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #0066b2;
+}
+
+/* Question components css */
+
 .question {
   margin-bottom: 20px;
 }
@@ -76,17 +89,11 @@ body {
   margin-right: 10px;
 }
 
-.form-submit {
-  margin-top: 20px;
-  background-color: #f0f8ff;
-  padding: 10px;
-  width: 20%;
-  color: black;
-  border-radius: 8px;
-  border: 2px solid #0066b2;
+.rating-button {
+  margin-right: 5px;
 }
 
-/* Data page css */
+/* Table component css */
 
 .data-table {
   margin-top: 20px;
@@ -97,10 +104,4 @@ body {
 .table-header {
   background-color: #333;
   color: white
-}
-
-/* Question component css */
-
-.rating-button {
-  margin-right: 5px;
 }
