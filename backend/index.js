@@ -4,9 +4,7 @@ import cors from "cors"
 
 const app = express();
 
-// middleware that automatically parse JSON formatted request bodies
 app.use(express.json());
-// middleware that allows our frontend client to make requests 
 app.use(cors());
 
 const db = mysql.createConnection({

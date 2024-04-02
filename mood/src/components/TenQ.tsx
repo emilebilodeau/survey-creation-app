@@ -12,18 +12,19 @@ interface Props {
 const TenQ = ({ question, data, updateData, alias, id }: Props) => {
   const [rating, setRating] = useState(null);
 
-  // TODO: possibly improve this code later - might be a more graceful way of doing this
   const handleRatingClick = (value: any) => {
+    // removes the "active" color from previous button, if there is one
     if (rating) {
       let previous = document.getElementById(`${rating}-button-${id}`);
       if (previous) {
-        previous.className = "btn btn-secondary";
+        previous.className = "rating-button btn btn-secondary";
       }
     }
     setRating(value);
     const element = document.getElementById(`${value}-button-${id}`);
+    // sets the newly click button to "active"
     if (element) {
-      element.className = "btn btn-primary";
+      element.className = "rating-button btn btn-primary";
     }
     const newData = { ...data, [alias]: value };
     updateData(newData);
@@ -34,11 +35,10 @@ const TenQ = ({ question, data, updateData, alias, id }: Props) => {
     for (let i = 1; i <= 10; i++) {
       buttons.push(
         <button
-          className="btn btn-secondary"
+          className="rating-button btn btn-secondary"
           id={`${i}-button-${id}`}
           key={i}
           onClick={() => handleRatingClick(i)}
-          style={{ marginRight: "5px" }}
         >
           {i}
         </button>
