@@ -1,21 +1,8 @@
-/* 
-step 5: styling the page
-
-5.1 choose a background color
-5.2 style the navbar
-5.3 style the form page, the survey, and the submit button
-5.4 style the data page, and the table
-
-*/
 
 * {
     box-sizing: border-box;
 }
 
-/* 
-looking for blues...
-bayern blue: #0066b2
-*/
 body {
     margin: 0;
     background-color: #0066b2;
@@ -69,39 +56,45 @@ body {
 /* Form page css */
 
 .survey-box {
-    border: 2px solid #007BFF;
+    border: 2px;
     padding: 20px;
-    margin: 20px 0;
+    margin: 20px auto; /* centers the survey */
     width: 50%;
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 8px; /* rounded corners */
     background-color: #f0f8ff;
   }
   
-  .question {
-    margin-bottom: 20px;
-  }
-  
-  .question p {
-    font-weight: bold;
-  }
-  
-  .question label {
-    margin-right: 10px;
-  }
+.question {
+  margin-bottom: 20px;
+}
 
-  .form-submit {
-    margin-bottom: 20px;
-    background-color: #f0f8ff;
-    padding: 10px;
-    color: black;
-    border-radius: 8px;
-    border: 2px solid #007BFF;
-  }
+.question p {
+  font-weight: bold;
+}
 
-  /* Data page css */
+.question label {
+  margin-right: 10px;
+}
 
-  .data-table {
-    margin-top: 20px;
-    background-color: white;
-    border: 2px solid black;
-  }
+.form-submit {
+  margin-top: 20px;
+  background-color: #f0f8ff;
+  padding: 10px;
+  width: 20%;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #0066b2;
+}
+
+/* Data page css */
+
+.data-table {
+  margin-top: 20px;
+  background-color: white;
+  border: 2px solid;
+}
+
+.table-header {
+  background-color: #333;
+  color: white
+}

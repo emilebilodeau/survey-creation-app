@@ -8,8 +8,8 @@ interface Props {
 // TODO: try to find a better way to generate the rows (possibly using cols)
 const Table = ({ rows, cols }: Props) => {
   return (
-    <table className="data-table table">
-      <thead className="table-dark">
+    <table className="data-table table table-striped">
+      <thead className="table-header">
         <tr>
           {cols.map((column: any, index: any) => (
             <th scope="col" key={index}>
@@ -26,7 +26,7 @@ const Table = ({ rows, cols }: Props) => {
             <td>{row.mood}</td>
             <td>{row.sleepDisruption}</td>
             <td>{row.exercise}</td>
-            <td>{row.outisde}</td>
+            <td>{row.outside}</td>
             <td>{row.meditation}</td>
             <td>{row.breakRoutine}</td>
             <td>{row.socialInteraction}</td>

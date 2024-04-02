@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <>
       <h1 className="header">Home</h1>
-      <p>Survey creation coming soon...</p>
+      <p>Survey creation coming soon... temporary page for now</p>
     </>
   );
 };

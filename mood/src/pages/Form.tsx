@@ -168,10 +168,10 @@ const Form = () => {
             );
           }
         })}
+        <button className="form-submit" onClick={submitForm}>
+          Submit
+        </button>
       </div>
-      <button className="form-submit" onClick={submitForm}>
-        Submit
-      </button>
     </>
   );
 };

@@ -17,13 +17,13 @@ const TenQ = ({ question, data, updateData, alias, id }: Props) => {
     if (rating) {
       let previous = document.getElementById(`${rating}-button-${id}`);
       if (previous) {
-        previous.className = "rating-button btn btn-secondary";
+        previous.className = "btn btn-secondary";
       }
     }
     setRating(value);
     const element = document.getElementById(`${value}-button-${id}`);
     if (element) {
-      element.className = "rating-button btn btn-primary";
+      element.className = "btn btn-primary";
     }
     const newData = { ...data, [alias]: value };
     updateData(newData);
@@ -34,7 +34,7 @@ const TenQ = ({ question, data, updateData, alias, id }: Props) => {
     for (let i = 1; i <= 10; i++) {
       buttons.push(
         <button
-          className="rating-button btn btn-secondary"
+          className="btn btn-secondary"
           id={`${i}-button-${id}`}
           key={i}
           onClick={() => handleRatingClick(i)}
