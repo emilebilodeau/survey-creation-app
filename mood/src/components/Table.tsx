@@ -9,8 +9,8 @@ interface Props {
 }
 
 const Table = ({ rows, cols }: Props) => {
-  // function leverages column names (col.Field) to index rows in order to generate
-  // each cell. passed to this function is an object containing row data
+  // this function leverages column names (col.Field) to index rows in order to
+  // generate each cell. passed to this function is an object containing row data
   const renderRows = (row: { [key: string]: rowPossibleValue }) => {
     const rowElements: JSX.Element[] = [];
     cols.forEach((col: { [key: string]: string }) => {
