@@ -1,4 +1,4 @@
-import React from "react";
+import axios from "axios";
 
 type rowPossibleValue = string | number;
 
@@ -9,6 +9,20 @@ interface Props {
 }
 
 const Table = ({ rows, cols }: Props) => {
+  const handleDelete = async (event: any) => {
+    if (confirm("Are you sure you want to delete this record?")) {
+      const rowId = event.target.getAttribute("row-id");
+
+      try {
+        await axios.post("http://localhost:8800/delete", { id: rowId });
+        console.log(`deleted ${rowId}`);
+        window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   // this function leverages column names (col.Field) to index rows in order to
   // generate each cell. passed to this function is an object containing row data
   const renderRows = (row: { [key: string]: rowPossibleValue }) => {
@@ -28,6 +42,17 @@ const Table = ({ rows, cols }: Props) => {
       }
       rowElements.push(<td key={col.Field}>{val}</td>);
     });
+    rowElements.push(
+      <td key={`delete-${row.id}`}>
+        <button
+          className="delete-button"
+          row-id={`${row.id}`}
+          onClick={handleDelete}
+        >
+          delete
+        </button>
+      </td>
+    );
     return rowElements;
   };
 
@@ -40,6 +65,7 @@ const Table = ({ rows, cols }: Props) => {
               {column.Field}
             </th>
           ))}
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>

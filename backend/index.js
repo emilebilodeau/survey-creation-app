@@ -67,9 +67,22 @@ app.get("/getcol", (req, res) => {
     });
 });
 
+// NOTE: might not be appropriate to use post for a delete operation, use delete?
+app.post('/delete', (req, res) => {
+    const q = `DELETE FROM survey_answers WHERE id = ${req.body.id}`;
+    db.query(q, (err, data) => {
+        if (err){
+            return json.son(err);
+        }
+        return res.json(data)
+    })
+})
+
+
 // TODO: find a better way to do this during survey creation implementation
 app.post('/submit', (req, res) => {
-    const q = "INSERT INTO survey_answers (`timestamp`, `mood`, `sleepDisruption`, `exercise`, `outside`, `meditation`, `breakRoutine`, `socialInteraction`, `rumination`, `drank`, `extra`) VALUES (?)";
+    const q = `INSERT INTO survey_answers (timestamp, mood, sleepDisruption, exercise, outside, meditation, 
+        breakRoutine, socialInteraction, rumination, drank, extra) VALUES (?)`;
     const values = [
         req.body.timestamp,
         req.body.mood,
