@@ -14,7 +14,7 @@ const Table = ({ rows, cols }: Props) => {
       const rowId = event.target.getAttribute("row-id");
 
       try {
-        await axios.post("http://localhost:8800/delete", { id: rowId });
+        await axios.delete("http://localhost:8800/delete/" + rowId);
         console.log(`deleted ${rowId}`);
         window.location.reload();
       } catch (err) {

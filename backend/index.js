@@ -67,9 +67,9 @@ app.get("/getcol", (req, res) => {
     });
 });
 
-// NOTE: might not be appropriate to use post for a delete operation, use delete?
-app.post('/delete', (req, res) => {
-    const q = `DELETE FROM survey_answers WHERE id = ${req.body.id}`;
+app.delete('/delete/:id', (req, res) => {
+    const id = req.params.id
+    const q = `DELETE FROM survey_answers WHERE id = ${id}`;
     db.query(q, (err, data) => {
         if (err){
             return json.son(err);
