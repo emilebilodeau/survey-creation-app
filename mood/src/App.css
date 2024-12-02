@@ -106,6 +106,15 @@ body {
   color: white
 }
 
-.delete-button {
+.table-button {
   border-radius: 8px;
+}
+
+.update-link {
+  color: black;
+  text-decoration: none;
+}
+
+.update-link:hover {
+  color:inherit;
 }

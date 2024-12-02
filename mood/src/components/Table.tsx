@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 type rowPossibleValue = string | number;
 
@@ -45,11 +46,20 @@ const Table = ({ rows, cols }: Props) => {
     rowElements.push(
       <td key={`delete-${row.id}`}>
         <button
-          className="delete-button"
+          className="table-button"
           row-id={`${row.id}`}
           onClick={handleDelete}
         >
-          delete
+          Delete
+        </button>
+      </td>
+    );
+    rowElements.push(
+      <td key={`edit-${row.id}`}>
+        <button className="table-button">
+          <Link to={"/update/" + row.id} className="update-link">
+            Update
+          </Link>
         </button>
       </td>
     );
@@ -65,6 +75,7 @@ const Table = ({ rows, cols }: Props) => {
               {column.Field}
             </th>
           ))}
+          <th scope="col"></th>
           <th scope="col"></th>
         </tr>
       </thead>
