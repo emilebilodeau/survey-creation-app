@@ -68,17 +68,27 @@ app.get("/getcol", (req, res) => {
     });
 });
 
+app.get("/getrow/:id", (req, res) => {
+    const id = req.params.id;
+    const q = "SELECT * FROM survey_answers WHERE id = ?";
+    db.query(q, [id], (err, data) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(data);
+    });
+});
+
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
-    const q = `DELETE FROM survey_answers WHERE id = ${id}`;
-    db.query(q, (err, data) => {
+    const q = "DELETE FROM survey_answers WHERE id = ?";
+    db.query(q, [id], (err, data) => {
         if (err){
             return json.son(err);
         }
         return res.json(data)
     });
 });
-
 
 // TODO: find a better way to do this during survey creation implementation
 app.post('/submit', (req, res) => {

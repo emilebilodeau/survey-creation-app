@@ -78,10 +78,6 @@ const Update = () => {
     },
   ];
 
-  // the syntax { id } gets only the id key value. without brackets the whole object is retrieved
-  // to be more explicit, can write useParams<{ id: string }>()
-  const { id } = useParams();
-
   const [data, setData] = useState({});
 
   const updateData = (newData: any) => {
@@ -100,6 +96,10 @@ const Update = () => {
     }
     return false;
   };
+
+  // the syntax { id } gets only the id key value. without brackets the whole object is retrieved
+  // to be more explicit, can write useParams<{ id: string }>()
+  const { id } = useParams();
 
   const submitForm = async (e: any) => {
     e.preventDefault();
