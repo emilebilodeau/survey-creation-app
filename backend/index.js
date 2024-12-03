@@ -119,7 +119,20 @@ app.post('/submit', (req, res) => {
 
 app.put('/update/:id', (req, res) => {
     const id = req.params.id
-    const q = "UPDATE survey_answers SET `mood` = ?, `sleep` = ?, `sleepDisruption` = ?, `exercise` = ?, `outside` = ?, `meditation` = ?, `breakRoutine` = ?, `socialInteraction` = ?, `rumination` = ?, `drank` = ?, `extra` = ? WHERE id = ? "
+    const q = `UPDATE survey_answers 
+                SET 
+                    mood = ?, 
+                    sleep = ?, 
+                    sleepDisruption = ?, 
+                    exercise = ?, 
+                    outside = ?, 
+                    meditation = ?, 
+                    breakRoutine = ?, 
+                    socialInteraction = ?, 
+                    rumination = ?, 
+                    drank = ?, 
+                    extra = ? 
+                WHERE id = ?`
 
         const values = [
             req.body.mood,

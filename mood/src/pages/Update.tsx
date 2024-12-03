@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
@@ -100,6 +100,24 @@ const Update = () => {
   // the syntax { id } gets only the id key value. without brackets the whole object is retrieved
   // to be more explicit, can write useParams<{ id: string }>()
   const { id } = useParams();
+
+  const fetchRow = async () => {
+    try {
+      const response = await axios.get("http://localhost:8800/getrow/" + id);
+      if (response.data) {
+        const row = response.data[0];
+        const { id, timestamp, ...cleanedRow } = row;
+        updateData(cleanedRow);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchRow();
+    console.log(data);
+  }, [id]);
 
   const submitForm = async (e: any) => {
     e.preventDefault();
