@@ -107,8 +107,8 @@ app.post('/submit', (req, res) => {
     })
 })
 
-app.put('/update', (req, res) => {
-    console.log(req.body)
+app.put('/update/:id', (req, res) => {
+    const id = req.params.id
     const q = "UPDATE survey_answers SET `mood` = ?, `sleep` = ?, `sleepDisruption` = ?, `exercise` = ?, `outside` = ?, `meditation` = ?, `breakRoutine` = ?, `socialInteraction` = ?, `rumination` = ?, `drank` = ?, `extra` = ? WHERE id = ? "
 
         const values = [
@@ -123,10 +123,9 @@ app.put('/update', (req, res) => {
             req.body.rumination,
             req.body.drank,
             req.body.extra,
-            req.body.id
         ];
         
-        db.query(q, values, (err, data) => {
+        db.query(q, [...values, id], (err, data) => {
             if (err) {
                 return res.json(err);
             }

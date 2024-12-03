@@ -82,8 +82,7 @@ const Update = () => {
   // to be more explicit, can write useParams<{ id: string }>()
   const { id } = useParams();
 
-  const [data, setData] = useState({ id: Number(id) });
-  console.log(data);
+  const [data, setData] = useState({});
 
   const updateData = (newData: any) => {
     setData(newData);
@@ -108,13 +107,13 @@ const Update = () => {
     console.log(data);
     console.log("submitted");
 
-    if (checkNull(data) || Object.keys(data).length !== questions.length + 1) {
+    if (checkNull(data) || Object.keys(data).length !== questions.length) {
       alert("Please complete all the field");
     } else {
       if (confirm("Confirm data update?")) {
         // in milliseconds
         try {
-          await axios.put("http://localhost:8800/update", data);
+          await axios.put("http://localhost:8800/update/" + id, data);
           alert("Completed");
           navigate("/data");
         } catch (err) {
