@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="container-fluid">
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/form" element={<Form />}></Route>
