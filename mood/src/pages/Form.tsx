@@ -82,6 +82,7 @@ const Form = () => {
     },
   ];
 
+  const update = false;
   const [data, setData] = useState({});
 
   const updateData = (newData: any) => {
@@ -148,6 +149,7 @@ const Form = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           } else if (item.type === "linear") {
@@ -170,6 +172,7 @@ const Form = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           }

@@ -78,6 +78,7 @@ const Update = () => {
     },
   ];
 
+  const update = true;
   const [data, setData] = useState({});
 
   const updateData = (newData: any) => {
@@ -116,7 +117,6 @@ const Update = () => {
 
   useEffect(() => {
     fetchRow();
-    console.log(data);
   }, [id]);
 
   const submitForm = async (e: any) => {
@@ -166,6 +166,7 @@ const Update = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           } else if (item.type === "linear") {
@@ -188,6 +189,7 @@ const Update = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           }

@@ -1,19 +1,20 @@
-import React, { useState } from "react";
-
 interface Props {
   question: string;
-  data: object;
+  data: { [key: string]: string | number };
   updateData: Function;
   alias: string;
   id: number;
+  update: boolean;
 }
 
-const TextQ = ({ question, data, updateData, alias, id }: Props) => {
-  let changeText = (event: any) => {
+const TextQ = ({ question, data, updateData, alias, id, update }: Props) => {
+  let changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     const newData = { ...data, [alias]: newValue };
     updateData(newData);
   };
+
+  const val = update ? data[alias] : undefined;
 
   return (
     <div className="question">
@@ -23,6 +24,7 @@ const TextQ = ({ question, data, updateData, alias, id }: Props) => {
         id={`text-${id}`}
         name={`answer-${id}`}
         onChange={changeText}
+        defaultValue={val}
       ></input>
     </div>
   );
