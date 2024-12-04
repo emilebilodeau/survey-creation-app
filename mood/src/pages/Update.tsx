@@ -155,6 +155,7 @@ const Update = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           } else if (item.type === "text") {

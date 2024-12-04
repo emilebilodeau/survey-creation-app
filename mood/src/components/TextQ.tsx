@@ -24,7 +24,7 @@ const TextQ = ({ question, data, updateData, alias, id, update }: Props) => {
         id={`text-${id}`}
         name={`answer-${id}`}
         onChange={changeText}
-        defaultValue={val}
+        defaultValue={val || ""}
       ></input>
     </div>
   );

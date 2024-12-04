@@ -18,8 +18,6 @@ const NumberQ = ({ question, data, updateData, alias, id, update }: Props) => {
   // sets the value retrieved from the row if updating an entry
   const val = update ? data[alias] : undefined;
 
-  console.log(data);
-
   return (
     <div className="question">
       <p>{question}</p>
@@ -28,7 +26,7 @@ const NumberQ = ({ question, data, updateData, alias, id, update }: Props) => {
         id={`number-${id}`}
         name={`answer-${id}`}
         onChange={changeNumber}
-        defaultValue={val || ""}
+        defaultValue={val ?? ""}
       ></input>
     </div>
   );

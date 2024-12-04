@@ -18,6 +18,7 @@ const Form = () => {
   // in the backend. the way i use alias might need to change later when i implement
   // the survey creation feature, but they are currently in place to manage the table
   // in the database easier
+  // NOTE: might get confusing at some point: each question has an id, but each row also has an id
   const questions: Item[] = [
     {
       question: "How did you feel overall today",
@@ -138,6 +139,7 @@ const Form = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           } else if (item.type === "text") {
