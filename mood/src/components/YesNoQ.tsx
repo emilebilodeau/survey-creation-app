@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   question: string;
@@ -11,7 +11,11 @@ interface Props {
 const YesNoQ = ({ question, data, updateData, alias, id, update }: Props) => {
   const [input, setInput] = useState("");
 
-  const val = update ? data[alias] : undefined;
+  useEffect(() => {
+    if (update && data[alias] !== undefined) {
+      setInput(String(data[alias]));
+    }
+  }, [update]);
 
   let changeResponse = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newResponse = event.target.value;
@@ -29,7 +33,7 @@ const YesNoQ = ({ question, data, updateData, alias, id, update }: Props) => {
         name={`answer-${id}`}
         value="yes"
         onChange={changeResponse}
-        checked={val === "yes" || input === "yes"}
+        checked={input === "yes"}
       ></input>
       <label htmlFor={`yes-${id}`}>Yes</label>
       <br />
@@ -39,7 +43,7 @@ const YesNoQ = ({ question, data, updateData, alias, id, update }: Props) => {
         name={`answer-${id}`}
         value="no"
         onChange={changeResponse}
-        checked={val === "no" || input === "no"}
+        checked={input === "no"}
       ></input>
       <label htmlFor={`no-${id}`}>No</label>
     </div>

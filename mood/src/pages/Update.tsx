@@ -78,7 +78,7 @@ const Update = () => {
     },
   ];
 
-  const update = true;
+  const [update, setUpdate] = useState(false);
   const [data, setData] = useState({});
 
   const updateData = (newData: any) => {
@@ -109,6 +109,7 @@ const Update = () => {
         const row = response.data[0];
         const { id, timestamp, ...cleanedRow } = row;
         updateData(cleanedRow);
+        setUpdate(true);
       }
     } catch (err) {
       console.log(err);
@@ -179,6 +180,7 @@ const Update = () => {
                 alias={item.alias}
                 id={item.id}
                 key={item.id}
+                update={update}
               />
             );
           } else if (item.type === "number") {

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 interface Props {
   question: string;
   data: { [key: string]: string | number };
@@ -8,15 +10,21 @@ interface Props {
 }
 
 const NumberQ = ({ question, data, updateData, alias, id, update }: Props) => {
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    if (update && data[alias] !== undefined) {
+      setInput(String(data[alias]));
+    }
+  }, [update]);
+
   let changeNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const answer = event.target.value;
-    const newNumber: number = parseFloat(answer);
+    const newValue = event.target.value;
+    setInput(newValue);
+    const newNumber: number = parseFloat(newValue);
     const newData = { ...data, [alias]: newNumber };
     updateData(newData);
   };
-
-  // sets the value retrieved from the row if updating an entry
-  const val = update ? data[alias] : undefined;
 
   return (
     <div className="question">
@@ -26,7 +34,7 @@ const NumberQ = ({ question, data, updateData, alias, id, update }: Props) => {
         id={`number-${id}`}
         name={`answer-${id}`}
         onChange={changeNumber}
-        defaultValue={val ?? ""}
+        value={input}
       ></input>
     </div>
   );

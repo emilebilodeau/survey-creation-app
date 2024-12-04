@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 interface Props {
   question: string;
   data: { [key: string]: string | number };
@@ -8,13 +10,21 @@ interface Props {
 }
 
 const TextQ = ({ question, data, updateData, alias, id, update }: Props) => {
+  const [input, setInput] = useState("");
+
+  // sets the value retrieved from the row if updating an entry. otherwise, default of input is used
+  useEffect(() => {
+    if (update && data[alias] !== undefined) {
+      setInput(String(data[alias]));
+    }
+  }, [update]);
+
   let changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
+    setInput(newValue);
     const newData = { ...data, [alias]: newValue };
     updateData(newData);
   };
-
-  const val = update ? data[alias] : undefined;
 
   return (
     <div className="question">
@@ -24,7 +34,7 @@ const TextQ = ({ question, data, updateData, alias, id, update }: Props) => {
         id={`text-${id}`}
         name={`answer-${id}`}
         onChange={changeText}
-        defaultValue={val || ""}
+        value={input}
       ></input>
     </div>
   );
