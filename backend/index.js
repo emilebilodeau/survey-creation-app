@@ -27,6 +27,7 @@ db.query("SHOW TABLES LIKE 'survey_answers'", (err, result) => {
             id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
             timestamp FLOAT,
             mood FLOAT,
+            sleep FLOAT,
             sleepDisruption VARCHAR(45),
             exercise FLOAT,
             outside VARCHAR(45),
@@ -67,12 +68,36 @@ app.get("/getcol", (req, res) => {
     });
 });
 
+app.get("/getrow/:id", (req, res) => {
+    const id = req.params.id;
+    const q = "SELECT * FROM survey_answers WHERE id = ?";
+    db.query(q, [id], (err, data) => {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(data);
+    });
+});
+
+app.delete('/delete/:id', (req, res) => {
+    const id = req.params.id;
+    const q = "DELETE FROM survey_answers WHERE id = ?";
+    db.query(q, [id], (err, data) => {
+        if (err){
+            return json.son(err);
+        }
+        return res.json(data)
+    });
+});
+
 // TODO: find a better way to do this during survey creation implementation
 app.post('/submit', (req, res) => {
-    const q = "INSERT INTO survey_answers (`timestamp`, `mood`, `sleepDisruption`, `exercise`, `outside`, `meditation`, `breakRoutine`, `socialInteraction`, `rumination`, `drank`, `extra`) VALUES (?)";
+    const q = `INSERT INTO survey_answers (timestamp, mood, sleep, sleepDisruption, exercise, outside, 
+        meditation, breakRoutine, socialInteraction, rumination, drank, extra) VALUES (?)`;
     const values = [
         req.body.timestamp,
         req.body.mood,
+        req.body.sleep,
         req.body.sleepDisruption,
         req.body.exercise,
         req.body.outside,
@@ -90,6 +115,45 @@ app.post('/submit', (req, res) => {
         }
         return res.json(data);
     })
+})
+
+app.put('/update/:id', (req, res) => {
+    const id = req.params.id
+    const q = `UPDATE survey_answers 
+                SET 
+                    mood = ?, 
+                    sleep = ?, 
+                    sleepDisruption = ?, 
+                    exercise = ?, 
+                    outside = ?, 
+                    meditation = ?, 
+                    breakRoutine = ?, 
+                    socialInteraction = ?, 
+                    rumination = ?, 
+                    drank = ?, 
+                    extra = ? 
+                WHERE id = ?`
+
+        const values = [
+            req.body.mood,
+            req.body.sleep,
+            req.body.sleepDisruption,
+            req.body.exercise,
+            req.body.outside,
+            req.body.meditation,
+            req.body.breakRoutine,
+            req.body.socialInteraction,
+            req.body.rumination,
+            req.body.drank,
+            req.body.extra,
+        ];
+        
+        db.query(q, [...values, id], (err, data) => {
+            if (err) {
+                return res.json(err);
+            }
+            return res.json(data);
+        })
 })
 
 app.listen(8800, () => {

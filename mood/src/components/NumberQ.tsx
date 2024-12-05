@@ -1,17 +1,27 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   question: string;
-  data: object;
+  data: { [key: string]: string | number };
   updateData: Function;
   alias: string;
   id: number;
+  update: boolean;
 }
 
-const NumberQ = ({ question, data, updateData, alias, id }: Props) => {
-  let changeNumber = (event: any) => {
-    const answer = event.target.value;
-    const newNumber: number = parseFloat(answer);
+const NumberQ = ({ question, data, updateData, alias, id, update }: Props) => {
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    if (update && data[alias] !== undefined) {
+      setInput(String(data[alias]));
+    }
+  }, [update]);
+
+  let changeNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setInput(newValue);
+    const newNumber: number = parseFloat(newValue);
     const newData = { ...data, [alias]: newNumber };
     updateData(newData);
   };
@@ -24,6 +34,7 @@ const NumberQ = ({ question, data, updateData, alias, id }: Props) => {
         id={`number-${id}`}
         name={`answer-${id}`}
         onChange={changeNumber}
+        value={input}
       ></input>
     </div>
   );

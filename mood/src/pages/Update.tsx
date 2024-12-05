@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import TenQ from "../components/TenQ";
 import NumberQ from "../components/NumberQ";
-import { useNavigate } from "react-router-dom";
 
 interface Item {
   question: string;
@@ -13,12 +13,7 @@ interface Item {
   alias: string;
 }
 
-const Form = () => {
-  // NOTE: hard coding these questions for now, related to the default table created
-  // in the backend. the way i use alias might need to change later when i implement
-  // the survey creation feature, but they are currently in place to manage the table
-  // in the database easier
-  // NOTE: might get confusing at some point: each question has an id, but each row also has an id
+const Update = () => {
   const questions: Item[] = [
     {
       question: "How did you feel overall today",
@@ -83,7 +78,7 @@ const Form = () => {
     },
   ];
 
-  const update = false;
+  const [update, setUpdate] = useState(false);
   const [data, setData] = useState({});
 
   const updateData = (newData: any) => {
@@ -103,6 +98,28 @@ const Form = () => {
     return false;
   };
 
+  // the syntax { id } gets only the id key value. without brackets the whole object is retrieved
+  // to be more explicit, can write useParams<{ id: string }>()
+  const { id } = useParams();
+
+  const fetchRow = async () => {
+    try {
+      const response = await axios.get("http://localhost:8800/getrow/" + id);
+      if (response.data) {
+        const row = response.data[0];
+        const { id, timestamp, ...cleanedRow } = row;
+        updateData(cleanedRow);
+        setUpdate(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchRow();
+  }, [id]);
+
   const submitForm = async (e: any) => {
     e.preventDefault();
 
@@ -112,15 +129,15 @@ const Form = () => {
     if (checkNull(data) || Object.keys(data).length !== questions.length) {
       alert("Please complete all the field");
     } else {
-      // in milliseconds
-      const timestamp = Date.now();
-      const payload = { ...data, timestamp: timestamp };
-      try {
-        await axios.post("http://localhost:8800/submit", payload);
-        alert("Completed");
-        navigate("/");
-      } catch (err) {
-        console.log(err);
+      if (confirm("Confirm data update?")) {
+        // in milliseconds
+        try {
+          await axios.put("http://localhost:8800/update/" + id, data);
+          alert("Completed");
+          navigate("/data");
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
   };
@@ -188,4 +205,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default Update;

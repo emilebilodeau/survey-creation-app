@@ -1,16 +1,22 @@
-import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   question: string;
-  data: object;
+  data: { [key: string]: string | Number };
   updateData: Function;
   alias: string;
   id: number;
+  update: boolean;
 }
 
-const TenQ = ({ question, data, updateData, alias, id }: Props) => {
-  const [rating, setRating] = useState(null);
+const TenQ = ({ question, data, updateData, alias, id, update }: Props) => {
+  const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    if (update && data[alias] !== undefined) {
+      handleRatingClick(data[alias]);
+    }
+  }, [update]);
 
   const handleRatingClick = (value: any) => {
     // removes the "active" color from previous button, if there is one
