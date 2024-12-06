@@ -49,7 +49,7 @@ db.query("SHOW TABLES LIKE 'survey_answers'", (err, result) => {
 })
 
 app.get("/getdata", (req, res) => {
-    const q = "SELECT * FROM survey_answers";
+    const q = "SELECT * FROM survey_answers ORDER BY timestamp";
     db.query(q, (err,data)=> {
         if (err) {
             return res.json(err);
@@ -121,6 +121,7 @@ app.put('/update/:id', (req, res) => {
     const id = req.params.id
     const q = `UPDATE survey_answers 
                 SET 
+                    timestamp = ?,
                     mood = ?, 
                     sleep = ?, 
                     sleepDisruption = ?, 
@@ -131,10 +132,12 @@ app.put('/update/:id', (req, res) => {
                     socialInteraction = ?, 
                     rumination = ?, 
                     drank = ?, 
-                    extra = ? 
+                    extra = ?
+                    
                 WHERE id = ?`
 
         const values = [
+            req.body.timestamp,
             req.body.mood,
             req.body.sleep,
             req.body.sleepDisruption,
@@ -145,7 +148,7 @@ app.put('/update/:id', (req, res) => {
             req.body.socialInteraction,
             req.body.rumination,
             req.body.drank,
-            req.body.extra,
+            req.body.extra
         ];
         
         db.query(q, [...values, id], (err, data) => {
