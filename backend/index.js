@@ -49,7 +49,7 @@ db.query("SHOW TABLES LIKE 'survey_answers'", (err, result) => {
 })
 
 app.get("/getdata", (req, res) => {
-    const q = "SELECT * FROM survey_answers";
+    const q = "SELECT * FROM survey_answers ORDER BY timestamp";
     db.query(q, (err,data)=> {
         if (err) {
             return res.json(err);
@@ -131,7 +131,8 @@ app.put('/update/:id', (req, res) => {
                     socialInteraction = ?, 
                     rumination = ?, 
                     drank = ?, 
-                    extra = ? 
+                    extra = ?,
+                    timestamp = ? 
                 WHERE id = ?`
 
         const values = [
@@ -146,6 +147,7 @@ app.put('/update/:id', (req, res) => {
             req.body.rumination,
             req.body.drank,
             req.body.extra,
+            req.body.timestamp
         ];
         
         db.query(q, [...values, id], (err, data) => {

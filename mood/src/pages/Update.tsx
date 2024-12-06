@@ -5,6 +5,7 @@ import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import TenQ from "../components/TenQ";
 import NumberQ from "../components/NumberQ";
+import DateQ from "../components/DateQ";
 
 interface Item {
   question: string;
@@ -107,7 +108,7 @@ const Update = () => {
       const response = await axios.get("http://localhost:8800/getrow/" + id);
       if (response.data) {
         const row = response.data[0];
-        const { id, timestamp, ...cleanedRow } = row;
+        const { id, ...cleanedRow } = row;
         updateData(cleanedRow);
         setUpdate(true);
       }
@@ -126,7 +127,7 @@ const Update = () => {
     console.log(data);
     console.log("submitted");
 
-    if (checkNull(data) || Object.keys(data).length !== questions.length) {
+    if (checkNull(data) || Object.keys(data).length !== questions.length + 1) {
       alert("Please complete all the field");
     } else {
       if (confirm("Confirm data update?")) {
@@ -197,6 +198,12 @@ const Update = () => {
             );
           }
         })}
+        <DateQ
+          data={data}
+          updateData={updateData}
+          key={"date-picker"}
+          update={update}
+        />
         <button className="form-submit" onClick={submitForm}>
           Submit
         </button>
