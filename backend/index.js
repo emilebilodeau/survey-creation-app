@@ -121,6 +121,7 @@ app.put('/update/:id', (req, res) => {
     const id = req.params.id
     const q = `UPDATE survey_answers 
                 SET 
+                    timestamp = ?,
                     mood = ?, 
                     sleep = ?, 
                     sleepDisruption = ?, 
@@ -131,11 +132,12 @@ app.put('/update/:id', (req, res) => {
                     socialInteraction = ?, 
                     rumination = ?, 
                     drank = ?, 
-                    extra = ?,
-                    timestamp = ? 
+                    extra = ?
+                    
                 WHERE id = ?`
 
         const values = [
+            req.body.timestamp,
             req.body.mood,
             req.body.sleep,
             req.body.sleepDisruption,
@@ -146,8 +148,7 @@ app.put('/update/:id', (req, res) => {
             req.body.socialInteraction,
             req.body.rumination,
             req.body.drank,
-            req.body.extra,
-            req.body.timestamp
+            req.body.extra
         ];
         
         db.query(q, [...values, id], (err, data) => {

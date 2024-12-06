@@ -7,6 +7,10 @@ import TenQ from "../components/TenQ";
 import NumberQ from "../components/NumberQ";
 import DateQ from "../components/DateQ";
 
+interface myData {
+  [key: string]: string | number;
+}
+
 interface Item {
   question: string;
   type: string;
@@ -82,14 +86,14 @@ const Update = () => {
   const [update, setUpdate] = useState(false);
   const [data, setData] = useState({});
 
-  const updateData = (newData: any) => {
+  const updateData = (newData: myData) => {
     setData(newData);
   };
 
   const navigate = useNavigate();
 
   // this function ensures the submition does not contain empty values
-  const checkNull = (obj: { [key: string]: any }): boolean => {
+  const checkNull = (obj: myData): boolean => {
     for (const key in obj) {
       const value = obj[key];
       if (value === null || value === "" || Number.isNaN(value)) {
@@ -119,7 +123,7 @@ const Update = () => {
 
   useEffect(() => {
     fetchRow();
-  }, [id]);
+  }, []);
 
   const submitForm = async (e: any) => {
     e.preventDefault();
