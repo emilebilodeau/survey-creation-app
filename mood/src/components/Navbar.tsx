@@ -9,6 +9,7 @@ const Navbar = () => {
       <ul>
         <CustomLink to="/form">Form</CustomLink>
         <CustomLink to="/data">Data</CustomLink>
+        <CustomLink to="/practice">Practice</CustomLink>
       </ul>
     </nav>
   );
