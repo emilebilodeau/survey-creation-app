@@ -1,8 +1,17 @@
 const Home = () => {
+  // NOTE: change the buttons into components if complexity increases?
+
   return (
     <>
-      <h1 className="header">Home</h1>
-      <p>Survey creation coming soon... temporary page for now</p>
+      <div className="home-box">
+        <h2 id="home-header">Welcome</h2>
+        <button className="home-button" id="home-create">
+          Create Questionnaire
+        </button>
+        <button className="home-button" id="home-choose">
+          Choose Questionnaire
+        </button>
+      </div>
     </>
   );
 };

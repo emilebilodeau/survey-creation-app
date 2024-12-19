@@ -54,6 +54,31 @@ body {
     background-color: #777;
 }
 
+/* Home page css */
+
+.home-box {
+  border: 2px;
+  padding: 20px;
+  margin: 10% auto;
+  width: 30%;
+  border-radius: 8px;
+  background-color: #f0f8ff;
+  display: grid;
+}
+
+.home-button {
+  margin: 20px;
+  background-color: #f0f8ff;
+  padding: 5%;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #0066b2;
+}
+
+#home-header {
+  margin: auto;
+}
+
 /* Form page css */
 
 .survey-box {
