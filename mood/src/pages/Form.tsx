@@ -10,6 +10,7 @@ interface myData {
   [key: string]: string | number;
 }
 
+// TODO: change id for items to be called QId for clarity
 interface Item {
   question: string;
   type: string;
@@ -18,6 +19,8 @@ interface Item {
 }
 
 // TODO: merge Form.tsx and Update.tsx together
+// TODO: delete id, names (and maybe classNames?) in question components where they are not used
+// TODO: renamed TenQ component LinearQ (this is the only one with useful id btw)
 const Form = () => {
   // NOTE: hard coding these questions for now, related to the default table created
   // in the backend. the way i use alias might need to change later when i implement

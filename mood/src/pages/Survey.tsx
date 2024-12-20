@@ -145,7 +145,6 @@ const Survey = () => {
             <div className="question">
               <p>Question:</p>
               <input
-                className="choose-type"
                 type="text"
                 onChange={changeName}
                 value={questionData.question}
@@ -153,11 +152,7 @@ const Survey = () => {
             </div>
             <div className="question">
               <p>Question type:</p>
-              <select
-                name="question-type"
-                onChange={changeType}
-                value={questionData.type}
-              >
+              <select onChange={changeType} value={questionData.type}>
                 <option value="yesNo">Yes/No</option>
                 <option value="text">Text</option>
                 <option value="number">Number</option>
