@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import NumberQ from "../components/NumberQ";
 import TenQ from "../components/TenQ";
 import Popup from "reactjs-popup";
+import { PopupActions } from "reactjs-popup/dist/types";
 import "reactjs-popup/dist/index.css";
 
 interface Item {
@@ -22,6 +23,11 @@ const Survey = () => {
     alias: "",
   };
 
+  // for popup: this ensures that TypeScript knows the ref object will eventually reference
+  // an object with open, close, and toggle methods or null.
+  const ref = useRef<PopupActions | null>(null);
+  const closeTooltip = () => ref.current?.close();
+
   const [id, setId] = useState(0);
   // individual question when adding
   const [questionData, setQuestionData] = useState<Item>(defaultDict);
@@ -37,7 +43,6 @@ const Survey = () => {
     setQuestionData({ ...questionData, type: newType });
   };
 
-  // TODO: control the popup so that it closes when questionHandeClick is used
   // need to auto increment id. the reason why it is done directly is because relying on the
   // asynchronous state update may cause the defaultDict to not be correctly updated
   const questionHandleClick = () => {
@@ -48,6 +53,7 @@ const Survey = () => {
       const nextId = id + 1;
       setId(nextId);
       setQuestionData({ ...defaultDict, id: nextId });
+      closeTooltip();
     }
   };
 
@@ -132,6 +138,7 @@ const Survey = () => {
         })}
         <div>
           <Popup
+            ref={ref}
             trigger={<button className="survey-button"> Add question </button>}
             position="right center"
           >
