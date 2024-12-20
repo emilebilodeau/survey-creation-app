@@ -16,7 +16,7 @@ interface Item {
 // NOTE: maybe keep survey it's own thing since i want it to behave very specifically
 // NOTE: instead, merge the form and update page
 const Survey = () => {
-  // TODO: need to figure out how to deal with the alias...
+  // TODO: need to figure out how to deal with the alias issue...
   const defaultDict: Item = {
     question: "",
     type: "yesNo",
@@ -34,11 +34,12 @@ const Survey = () => {
     const newName = event.target.value;
     setQuestionData({ ...questionData, question: newName });
   };
-  const changeType = (event: any) => {
+  const changeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newType = event.target.value;
     setQuestionData({ ...questionData, type: newType });
   };
 
+  // TODO: control the popup so that it closes when questionHandeClick is used
   // need to auto increment id. the reason why it is done directly is because relying on the
   // asynchronous state update may cause the defaultDict to not be correctly updated
   const questionHandleClick = () => {
@@ -56,7 +57,7 @@ const Survey = () => {
 
   // TODO: automatically add the TenQ how did you feel question
   const questionSubmit = () => {
-    alert("Questionnaire Created");
+    alert("Questionnaire created");
   };
 
   return (
@@ -128,6 +129,7 @@ const Survey = () => {
             ></input>
           </div>
           <div className="question">
+            <p>Question type:</p>
             <select
               name="question-type"
               onChange={changeType}
@@ -135,8 +137,8 @@ const Survey = () => {
             >
               <option value="yesNo">Yes/No</option>
               <option value="text">Text</option>
-              <option value="linear">Linear</option>
               <option value="number">Number</option>
+              <option value="linear">Linear</option>
             </select>
           </div>
           <button className="survey-button" onClick={questionHandleClick}>

@@ -167,7 +167,7 @@ body {
 }
 
 .popup-arrow {
-  color: rgb(255, 255, 255);
+  color: #f0f8ff;
 }
 [role='tooltip'].popup-content {
   width: 20%;
