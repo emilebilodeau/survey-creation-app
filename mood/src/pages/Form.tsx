@@ -17,6 +17,7 @@ interface Item {
   alias: string;
 }
 
+// TODO: merge Form.tsx and Update.tsx together
 const Form = () => {
   // NOTE: hard coding these questions for now, related to the default table created
   // in the backend. the way i use alias might need to change later when i implement

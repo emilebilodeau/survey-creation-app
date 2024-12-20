@@ -13,8 +13,6 @@ interface Item {
   alias: string;
 }
 
-// NOTE: maybe keep survey it's own thing since i want it to behave very specifically
-// NOTE: instead, merge the form and update page
 const Survey = () => {
   // TODO: need to figure out how to deal with the alias issue...
   const defaultDict: Item = {
@@ -55,6 +53,12 @@ const Survey = () => {
 
   console.log(questions);
 
+  const questionHandleDelete = (event: any) => {
+    const qId = parseFloat(event.target.getAttribute("q-id"));
+    const updatedList = questions.filter((obj) => obj.id !== qId);
+    setQuestions(updatedList);
+  };
+
   // TODO: automatically add the TenQ how did you feel question
   const questionSubmit = () => {
     alert("Questionnaire created");
@@ -65,8 +69,18 @@ const Survey = () => {
       <div className="survey-box">
         <h2>Survey Creation</h2>
         {questions.map((item) => {
+          const output = [
+            <button
+              className="survey-button"
+              key={`delete-${item.id}`}
+              onClick={questionHandleDelete}
+              q-id={item.id}
+            >
+              Delete
+            </button>,
+          ];
           if (item.type === "yesNo") {
-            return (
+            output.unshift(
               <YesNoQ
                 question={item.question}
                 data={{}}
@@ -78,7 +92,7 @@ const Survey = () => {
               />
             );
           } else if (item.type === "text") {
-            return (
+            output.unshift(
               <TextQ
                 question={item.question}
                 data={{}}
@@ -90,7 +104,7 @@ const Survey = () => {
               />
             );
           } else if (item.type === "linear") {
-            return (
+            output.unshift(
               <TenQ
                 question={item.question}
                 data={{}}
@@ -102,7 +116,7 @@ const Survey = () => {
               />
             );
           } else if (item.type === "number") {
-            return (
+            output.unshift(
               <NumberQ
                 question={item.question}
                 data={{}}
@@ -114,37 +128,41 @@ const Survey = () => {
               />
             );
           }
+          return output;
         })}
-        <Popup
-          trigger={<button className="survey-button"> Add question </button>}
-          position="right center"
-        >
-          <div className="question">
-            <p>Question:</p>
-            <input
-              className="choose-type"
-              type="text"
-              onChange={changeName}
-              value={questionData.question}
-            ></input>
-          </div>
-          <div className="question">
-            <p>Question type:</p>
-            <select
-              name="question-type"
-              onChange={changeType}
-              value={questionData.type}
-            >
-              <option value="yesNo">Yes/No</option>
-              <option value="text">Text</option>
-              <option value="number">Number</option>
-              <option value="linear">Linear</option>
-            </select>
-          </div>
-          <button className="survey-button" onClick={questionHandleClick}>
-            Confirm
-          </button>
-        </Popup>
+        <div>
+          <Popup
+            trigger={<button className="survey-button"> Add question </button>}
+            position="right center"
+          >
+            <div className="question">
+              <p>Question:</p>
+              <input
+                className="choose-type"
+                type="text"
+                onChange={changeName}
+                value={questionData.question}
+              ></input>
+            </div>
+            <div className="question">
+              <p>Question type:</p>
+              <select
+                name="question-type"
+                onChange={changeType}
+                value={questionData.type}
+              >
+                <option value="yesNo">Yes/No</option>
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="linear">Linear</option>
+              </select>
+            </div>
+            <button className="survey-button" onClick={questionHandleClick}>
+              Confirm
+            </button>
+          </Popup>
+        </div>
+
         <div>
           <button className="form-submit" onClick={questionSubmit}>
             Submit
