@@ -57,7 +57,7 @@ const Table = ({ rows, cols }: Props) => {
     rowElements.push(
       <td key={`edit-${row.id}`}>
         <button className="table-button">
-          <Link to={"/update/" + row.id} className="update-link">
+          <Link to={"/update/" + row.id} className="general-link">
             Update
           </Link>
         </button>

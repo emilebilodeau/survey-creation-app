@@ -9,6 +9,24 @@ body {
     background-color: #0066b2;
 }
 
+.general-link {
+  color: black;
+  text-decoration: none;
+}
+
+.general-link:hover {
+  color:inherit;
+}
+
+.general-button {
+  margin: 20px;
+  background-color: #f0f8ff;
+  padding: 5%;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #0066b2;
+}
+
 /* Navbar component css */
 
 #main-navbar {
@@ -52,6 +70,22 @@ body {
 
 .nav li:hover {
     background-color: #777;
+}
+
+/* Home page css */
+
+.home-box {
+  border: 2px;
+  padding: 20px;
+  margin: 10% auto;
+  width: 30%;
+  border-radius: 8px;
+  background-color: #f0f8ff;
+  display: grid;
+}
+
+#home-header {
+  margin: auto;
 }
 
 /* Form page css */
@@ -111,11 +145,31 @@ body {
   border-radius: 8px;
 }
 
-.update-link {
+/* Survey creation css */
+
+.survey-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #f0f8ff;
+  padding: 10px;
+  width: 30%;
   color: black;
-  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid #0066b2;
 }
 
-.update-link:hover {
-  color:inherit;
+
+.popup-content {
+  margin: auto;
+  background: #f0f8ff;
+  width: 100%;
+  padding: 5px;
+}
+
+.popup-arrow {
+  color: #f0f8ff;
+}
+[role='tooltip'].popup-content {
+  width: 20%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
 }

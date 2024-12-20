@@ -1,8 +1,17 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
   return (
     <>
-      <h1 className="header">Home</h1>
-      <p>Survey creation coming soon... temporary page for now</p>
+      <div className="home-box">
+        <h2 id="home-header">Welcome</h2>
+        <button className="general-button">
+          <Link to={"/questionnaire"} className="general-link">
+            Create Questionnaire
+          </Link>
+        </button>
+        <button className="general-button">Choose Questionnaire</button>
+      </div>
     </>
   );
 };
