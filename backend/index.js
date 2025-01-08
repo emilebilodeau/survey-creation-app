@@ -18,6 +18,8 @@ const db = mysql.createConnection({
 // hard coded in the client. this will need to change when i implement the survey
 // creation feature - there will be one table per survey, and each survey will have
 // its own corresponding table for the answers
+// NOTE: once survey creation is implemented, maybe replace this for an initial query to check if atleast
+// one survey exists, and pick the first one automatically/some other kind of behaviour?
 db.query("SHOW TABLES LIKE 'survey_answers'", (err, result) => {
     if (err) throw err;
     if (result.length === 0){
@@ -47,6 +49,67 @@ db.query("SHOW TABLES LIKE 'survey_answers'", (err, result) => {
         console.log('Table already exists')
     }
 })
+
+// creates a new survey table and an associated answer table based on the list of questions created
+app.post("/createsurvey", (req, res) => {
+    // TODO: figure out naming for table
+    const createSurveyTable = `
+    CREATE TABLE survey_test (
+        id INT NOT NULL PRIMARY KEY,
+        question VARCHAR(255),
+        type VARCHAR(45),
+        alias VARCHAR(45)
+    )
+    `;
+
+    db.query(createSurveyTable, (err) => {
+        if (err) throw err;
+        console.log('New survey created');
+    });
+
+    // inserting multiple rows of data
+    const insertQuestions = "INSERT INTO survey_test (id, question, type, alias) VALUES ?";
+    const questions = [];
+    const columns = [];
+    // this will also be used to build the query for the creation of the answers table
+    req.body.forEach((element) => {
+        // for survey table creation
+        questions.push([element['id'], element['question'], element['type'], element['alias']]);
+        // for survey answer table creation
+        // TODO: change to alias when possible
+        if (element.type === "yesNo"){
+            columns.push(`${element.question} VARCHAR(45)`);
+        } else if (element.type === "text"){
+            columns.push(`${element.question} VARCHAR(255)`);
+        } else if (element.type === "number" || element.type == "linear"){
+            columns.push(`${element.question} FLOAT`);
+        };
+    });
+
+    db.query(insertQuestions, [questions], (err) => {
+        if (err) throw err;
+        console.log('Survey questions successfully added');
+    });
+
+    // TODO: ensure that there are no duplicate questions; columns need to be unique
+    const columnDefinition = columns.join(", ")
+    let createAnswerTable = `
+    CREATE TABLE survey_test_answers (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    timestamp FLOAT,
+    ${columnDefinition}
+    );
+    `;
+
+    db.query(createAnswerTable, (err, data) => {
+        if (err) {
+            return res.json(err);
+        }
+        console.log('New survey answer table created')
+        return res.json(data);
+    });
+
+});
 
 app.get("/getdata", (req, res) => {
     const q = "SELECT * FROM survey_answers ORDER BY timestamp";
@@ -117,6 +180,7 @@ app.post('/submit', (req, res) => {
     })
 })
 
+// NOTE: also subject to a lot of change during survey creation implementation
 app.put('/update/:id', (req, res) => {
     const id = req.params.id
     const q = `UPDATE survey_answers 

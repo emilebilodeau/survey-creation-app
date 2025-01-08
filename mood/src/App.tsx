@@ -18,7 +18,7 @@ function App() {
           <Route path="/form" element={<Form />}></Route>
           <Route path="/data" element={<Data />}></Route>
           <Route path="/update/:id" element={<Update />}></Route>
-          <Route path="/questionnaire" element={<Survey />}></Route>
+          <Route path="/createsurvey" element={<Survey />}></Route>
         </Routes>
       </div>
     </>

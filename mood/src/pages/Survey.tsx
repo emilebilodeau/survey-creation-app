@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import NumberQ from "../components/NumberQ";
@@ -19,7 +21,7 @@ const Survey = () => {
   const defaultDict: Item = {
     question: "",
     type: "yesNo",
-    id: 0,
+    id: 1,
     alias: "",
   };
 
@@ -28,7 +30,7 @@ const Survey = () => {
   const ref = useRef<PopupActions | null>(null);
   const closeTooltip = () => ref.current?.close();
 
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(1);
   // individual question when adding
   const [questionData, setQuestionData] = useState<Item>(defaultDict);
   // complete question list
@@ -57,17 +59,30 @@ const Survey = () => {
     }
   };
 
-  console.log(questions);
-
   const questionHandleDelete = (event: any) => {
     const qId = parseFloat(event.target.getAttribute("q-id"));
     const updatedList = questions.filter((obj) => obj.id !== qId);
     setQuestions(updatedList);
   };
 
+  const navigate = useNavigate();
+
   // TODO: automatically add the TenQ how did you feel question
-  const questionSubmit = () => {
-    alert("Questionnaire created");
+  const questionSubmit = async (event: any) => {
+    event.preventDefault();
+
+    console.log(questions);
+    if (questions.length !== 0) {
+      try {
+        await axios.post("http://localhost:8800/createsurvey", questions);
+        alert("Questionnaire created");
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Questionnaire cannot be empty");
+    }
   };
 
   return (
