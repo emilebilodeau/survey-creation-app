@@ -121,6 +121,13 @@ app.post("/createsurvey", (req, res) => {
   });
 });
 
+app.get('/tables', (req, res) => {
+  db.query("SHOW TABLES LIKE 'test_survey%'", (err, data) => {
+    if (err) throw err
+    return res.json(data)
+  });
+})
+
 // TODO: for all the endpoints going forward, look into "Preparing Queries" in the mysql github page
 // specifically how to use this syntax: "SELECT * FROM ?? WHERE ?? = ?"
 app.get("/getdata", (req, res) => {
