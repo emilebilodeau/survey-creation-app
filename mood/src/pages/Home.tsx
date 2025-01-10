@@ -37,10 +37,19 @@ const Home = () => {
     closeTooltip();
   };
 
-  // TODO: need to include some kind of logic if no questionnaire exists
   const renderChoice = () => {
+    const output = [];
     if (questionnaireList.length > 0) {
-      const choices = [];
+      const choices: JSX.Element[] = [];
+      output.push(
+        <select
+          onChange={changeQuestionnaire}
+          value={questionnaire}
+          key="select"
+        >
+          {choices}
+        </select>
+      );
       for (let i = 1; i < questionnaireList.length + 1; i++) {
         choices.push(
           <option value={`test_survey${i}`} key={`option-${i}`}>
@@ -48,8 +57,12 @@ const Home = () => {
           </option>
         );
       }
-      return choices;
+    } else {
+      output.push(
+        <p key="default">Must create at least 1 questionnaire first</p>
+      );
     }
+    return output;
   };
 
   return (
@@ -70,9 +83,7 @@ const Home = () => {
         >
           <div className="question">
             <p>Please choose from your created questionnaires:</p>
-            <select onChange={changeQuestionnaire} value={questionnaire}>
-              {renderChoice()}
-            </select>
+            {renderChoice()}
           </div>
         </Popup>
       </div>
