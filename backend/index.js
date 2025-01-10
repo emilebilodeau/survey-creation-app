@@ -85,13 +85,12 @@ app.post("/createsurvey", (req, res) => {
           element["alias"],
         ]);
         // for survey answer table creation
-        // TODO: change to alias when possible. also wouldn't be a bad idea to sanatize the alias
         if (element.type === "yesNo") {
-          columns.push(`${element.question} VARCHAR(45)`);
+          columns.push(`${element.alias} VARCHAR(45)`);
         } else if (element.type === "text") {
-          columns.push(`${element.question} VARCHAR(255)`);
+          columns.push(`${element.alias} VARCHAR(255)`);
         } else if (element.type === "number" || element.type == "linear") {
-          columns.push(`${element.question} FLOAT`);
+          columns.push(`${element.alias} FLOAT`);
         }
       });
 
@@ -101,7 +100,6 @@ app.post("/createsurvey", (req, res) => {
         console.log("Survey questions successfully added");
       });
 
-      // TODO: ensure that there are no duplicate questions; columns need to be unique
       const columnDefinition = columns.join(", ");
       const createAnswerTable = `
       CREATE TABLE test_answers_survey${tableNumber} (
