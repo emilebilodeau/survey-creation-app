@@ -4,7 +4,7 @@ import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import NumberQ from "../components/NumberQ";
-import TenQ from "../components/TenQ";
+import LinearQ from "../components/LinearQ";
 import Popup from "reactjs-popup";
 import { PopupActions } from "reactjs-popup/dist/types";
 import "reactjs-popup/dist/index.css";
@@ -152,7 +152,7 @@ const Survey = () => {
             );
           } else if (item.type === "linear") {
             output.unshift(
-              <TenQ
+              <LinearQ
                 question={item.question}
                 data={{}}
                 updateData={() => {}}

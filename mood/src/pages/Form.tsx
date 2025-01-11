@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
-import TenQ from "../components/TenQ";
+import LinearQ from "../components/LinearQ";
 import NumberQ from "../components/NumberQ";
 import { useNavigate } from "react-router-dom";
 
@@ -19,8 +19,8 @@ interface Item {
 }
 
 // TODO: merge Form.tsx and Update.tsx together
-// TODO: delete id, names (and maybe classNames?) in question components where they are not used
-// TODO: renamed TenQ component LinearQ (this is the only one with useful id btw)
+// TODO: delete id, names (and maybe classNames?) in question components where they are not used...
+// ...(only LinearQ has a useful id it seems like so far)
 const Form = () => {
   // NOTE: hard coding these questions for now, related to the default table created
   // in the backend. the way i use alias might need to change later when i implement
@@ -164,7 +164,7 @@ const Form = () => {
             );
           } else if (item.type === "linear") {
             return (
-              <TenQ
+              <LinearQ
                 question={item.question}
                 data={data}
                 updateData={updateData}

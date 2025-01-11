@@ -29,8 +29,6 @@ const Home = () => {
     fetchTables();
   }, []);
 
-  console.log(questionnaire);
-
   const changeQuestionnaire = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
     setQuestionnaire(selected);

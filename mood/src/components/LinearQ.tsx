@@ -9,7 +9,7 @@ interface Props {
   update: boolean;
 }
 
-const TenQ = ({ question, data, updateData, alias, id, update }: Props) => {
+const LinearQ = ({ question, data, updateData, alias, id, update }: Props) => {
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
@@ -61,4 +61,4 @@ const TenQ = ({ question, data, updateData, alias, id, update }: Props) => {
   );
 };
 
-export default TenQ;
+export default LinearQ;

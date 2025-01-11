@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
-import TenQ from "../components/TenQ";
+import LinearQ from "../components/LinearQ";
 import NumberQ from "../components/NumberQ";
 import DateQ from "../components/DateQ";
 
@@ -178,7 +178,7 @@ const Update = () => {
             );
           } else if (item.type === "linear") {
             return (
-              <TenQ
+              <LinearQ
                 question={item.question}
                 data={data}
                 updateData={updateData}
