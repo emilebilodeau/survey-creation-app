@@ -54,7 +54,7 @@ const PracticePage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const generateCats = () => {
-    // NOTE: not sure about the behaviour of the loading state here...
+    // NOTE: not sure the behaviour of the loading state here working as intended...
     setLoading(true);
     if (catCount <= 50) {
       if (containerRef.current) {
@@ -89,7 +89,7 @@ const PracticePage = () => {
     // debounce to limit rapid calls
     const debouncedScroll = debounce(handleScroll, 200);
     window.addEventListener("scroll", debouncedScroll);
-    return () => window.removeEventListener("scroll", debouncedScroll);
+    return () => window.removeEventListener("scroll", debouncedScroll); // cleanup
   }, [handleScroll]);
 
   return (
