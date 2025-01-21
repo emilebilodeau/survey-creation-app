@@ -121,6 +121,7 @@ app.post("/createsurvey", (req, res) => {
   });
 });
 
+// Home.tsx endpoints
 app.get('/tables', (req, res) => {
   db.query("SHOW TABLES LIKE 'test_survey%'", (err, data) => {
     if (err) throw err
@@ -130,6 +131,8 @@ app.get('/tables', (req, res) => {
 
 // TODO: for all the endpoints going forward, look into "Preparing Queries" in the mysql github page
 // specifically how to use this syntax: "SELECT * FROM ?? WHERE ?? = ?"
+
+// Data.tsx endpoints
 app.get("/getdata", (req, res) => {
   const q = "SELECT * FROM survey_answers ORDER BY timestamp";
   db.query(q, (err, data) => {
@@ -150,17 +153,7 @@ app.get("/getcol", (req, res) => {
   });
 });
 
-app.get("/getrow/:id", (req, res) => {
-  const id = req.params.id;
-  const q = "SELECT * FROM survey_answers WHERE id = ?";
-  db.query(q, [id], (err, data) => {
-    if (err) {
-      return res.json(err);
-    }
-    return res.json(data);
-  });
-});
-
+// Table.tsx endpoints
 app.delete("/delete/:id", (req, res) => {
   const id = req.params.id;
   const q = "DELETE FROM survey_answers WHERE id = ?";
@@ -172,26 +165,11 @@ app.delete("/delete/:id", (req, res) => {
   });
 });
 
-// TODO: find a better way to do this during survey creation implementation
-app.post("/submit", (req, res) => {
-  const q = `INSERT INTO survey_answers (timestamp, mood, sleep, sleepDisruption, exercise, outside, 
-        meditation, breakRoutine, socialInteraction, rumination, drank, extra) VALUES (?)`;
-  const values = [
-    req.body.timestamp,
-    req.body.mood,
-    req.body.sleep,
-    req.body.sleepDisruption,
-    req.body.exercise,
-    req.body.outside,
-    req.body.meditation,
-    req.body.breakRoutine,
-    req.body.socialInteraction,
-    req.body.rumination,
-    req.body.drank,
-    req.body.extra,
-  ];
-
-  db.query(q, [values], (err, data) => {
+// Update.tsx endpoints
+app.get("/getrow/:id", (req, res) => {
+  const id = req.params.id;
+  const q = "SELECT * FROM survey_answers WHERE id = ?";
+  db.query(q, [id], (err, data) => {
     if (err) {
       return res.json(err);
     }
@@ -235,6 +213,34 @@ app.put("/update/:id", (req, res) => {
   ];
 
   db.query(q, [...values, id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+// Form.tsx endpoints
+// TODO: find a better way to do this during survey creation implementation
+app.post("/submit", (req, res) => {
+  const q = `INSERT INTO survey_answers (timestamp, mood, sleep, sleepDisruption, exercise, outside, 
+        meditation, breakRoutine, socialInteraction, rumination, drank, extra) VALUES (?)`;
+  const values = [
+    req.body.timestamp,
+    req.body.mood,
+    req.body.sleep,
+    req.body.sleepDisruption,
+    req.body.exercise,
+    req.body.outside,
+    req.body.meditation,
+    req.body.breakRoutine,
+    req.body.socialInteraction,
+    req.body.rumination,
+    req.body.drank,
+    req.body.extra,
+  ];
+
+  db.query(q, [values], (err, data) => {
     if (err) {
       return res.json(err);
     }

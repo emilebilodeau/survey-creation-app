@@ -7,9 +7,8 @@ import "reactjs-popup/dist/index.css";
 import { useCookies } from "react-cookie";
 
 const Home = () => {
-  const [questionnaireList, setQuestionnaireList] = useState<[]>([]);
+  const [questionnaireList, setQuestionnaireList] = useState<Object[]>([]);
   // selected questionnaire
-  // NOTE: the cookie is available application wide this way
   const [cookies, setCookie, removeCookie] = useCookies(["selectedSurvey"]);
 
   const ref = useRef<PopupActions | null>(null);
@@ -20,8 +19,10 @@ const Home = () => {
       const table = await axios.get("http://localhost:8800/tables");
       setQuestionnaireList(table.data);
       if (table.data.length > 0) {
-        if (!cookies.selectedSurvey) {
-          setCookie("selectedSurvey", "test_survey1", {
+        if (typeof cookies.selectedSurvey === "undefined") {
+          // this grab the name of the first survey in the list of surveys as a default
+          const [, firstSurvey] = Object.entries(table.data[0])[0];
+          setCookie("selectedSurvey", firstSurvey, {
             path: "/",
             maxAge: 86400000, // a day
           });
@@ -58,13 +59,17 @@ const Home = () => {
           {choices}
         </select>
       );
-      for (let i = 1; i < questionnaireList.length + 1; i++) {
+      questionnaireList.forEach((obj) => {
+        const [, surveyName] = Object.entries(obj)[0];
+        // NOTE: this is okay for now because survey names are generated automatically...
+        // ... this might need to change if allowing the user to name their surveys
+        const surveyNumber: string = surveyName.slice(-1);
         choices.push(
-          <option value={`test_survey${i}`} key={`option-${i}`}>
-            Survey {i}
+          <option value={surveyName} key={`option-${surveyNumber}`}>
+            Survey {surveyNumber}
           </option>
         );
-      }
+      });
     } else {
       output.push(
         <p key="default">Must create at least 1 questionnaire first</p>

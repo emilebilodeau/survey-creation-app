@@ -21,7 +21,10 @@ interface Item {
 // TODO: merge Form.tsx and Update.tsx together
 // TODO: delete id, names (and maybe classNames?) in question components where they are not used...
 // ...(only LinearQ has a useful id it seems like so far)
-const Form = () => {
+const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {
+  console.log(selectedSurvey);
+  // TODO: need to get the questions from backend now
+
   // NOTE: hard coding these questions for now, related to the default table created
   // in the backend. the way i use alias might need to change later when i implement
   // the survey creation feature, but they are currently in place to manage the table
