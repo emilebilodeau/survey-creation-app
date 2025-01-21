@@ -9,12 +9,8 @@ import { useCookies } from "react-cookie";
 const Home = () => {
   const [questionnaireList, setQuestionnaireList] = useState<[]>([]);
   // selected questionnaire
-  // NOTE: do not trust client-side provided data, make sure to sanatize or check the cookie before using
   // NOTE: the cookie is available application wide this way
-  const [questionnaire, setQuestionnaire] = useState<string>("");
   const [cookies, setCookie, removeCookie] = useCookies(["selectedSurvey"]);
-
-  console.log(cookies.selectedSurvey);
 
   const ref = useRef<PopupActions | null>(null);
   const closeTooltip = () => ref.current?.close();
@@ -24,11 +20,12 @@ const Home = () => {
       const table = await axios.get("http://localhost:8800/tables");
       setQuestionnaireList(table.data);
       if (table.data.length > 0) {
-        setQuestionnaire("test_survey1");
-        setCookie("selectedSurvey", "test_survey1", {
-          path: "/",
-          maxAge: 86400000, // a day
-        });
+        if (!cookies.selectedSurvey) {
+          setCookie("selectedSurvey", "test_survey1", {
+            path: "/",
+            maxAge: 86400000, // a day
+          });
+        }
       }
     } catch (err) {
       console.log(err);
@@ -41,7 +38,6 @@ const Home = () => {
 
   const changeQuestionnaire = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
-    setQuestionnaire(selected);
     setCookie("selectedSurvey", selected, {
       path: "/",
       maxAge: 86400000,
@@ -56,7 +52,7 @@ const Home = () => {
       output.push(
         <select
           onChange={changeQuestionnaire}
-          value={questionnaire}
+          value={cookies.selectedSurvey}
           key="select"
         >
           {choices}
