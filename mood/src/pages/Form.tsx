@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
@@ -22,84 +22,28 @@ interface Item {
 // TODO: delete id, names (and maybe classNames?) in question components where they are not used...
 // ...(only LinearQ has a useful id it seems like so far)
 const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {
-  console.log(selectedSurvey);
-  // TODO: need to get the questions from backend now
-
-  // NOTE: hard coding these questions for now, related to the default table created
-  // in the backend. the way i use alias might need to change later when i implement
-  // the survey creation feature, but they are currently in place to manage the table
-  // in the database easier
-  // NOTE: might get confusing at some point: each question has an id, but each row also has an id
-  const questions: Item[] = [
-    {
-      question: "How did you feel overall today",
-      type: "linear",
-      id: 1,
-      alias: "mood",
-    },
-    { question: "Hours of sleep", type: "number", id: 2, alias: "sleep" },
-    {
-      question: "Disrupted Sleep",
-      type: "yesNo",
-      id: 3,
-      alias: "sleepDisruption",
-    },
-    {
-      question: "Amount of intentional exercise in minutes",
-      type: "number",
-      id: 4,
-      alias: "exercise",
-    },
-    {
-      question: "Spent at least 1 hour outside the house",
-      type: "yesNo",
-      id: 5,
-      alias: "outside",
-    },
-    {
-      question: "Meditated atleast 5 minutes",
-      type: "yesNo",
-      id: 6,
-      alias: "meditation",
-    },
-    {
-      question: "Did at least 1 thing outside of routine",
-      type: "yesNo",
-      id: 7,
-      alias: "breakRoutine",
-    },
-    {
-      question: "Had a meaningful social interaction",
-      type: "yesNo",
-      id: 8,
-      alias: "socialInteraction",
-    },
-    {
-      question: "Estimate of time spent ruminating in minutes",
-      type: "number",
-      id: 9,
-      alias: "rumination",
-    },
-    {
-      question: "Drank more than 3 drinks the day before",
-      type: "yesNo",
-      id: 10,
-      alias: "drank",
-    },
-    {
-      question: "Extra (any notable events, good or bad?)",
-      type: "text",
-      id: 11,
-      alias: "extra",
-    },
-  ];
-
+  const [questions, setQuestions] = useState<Item[]>([]);
   const [update] = useState(false);
   const [data, setData] = useState({});
 
   const updateData = (newData: myData) => {
     setData(newData);
   };
+
+  const getQuestions = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8800/questions/" + selectedSurvey
+      );
+      setQuestions(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getQuestions();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -127,7 +71,10 @@ const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {
       const timestamp = Date.now();
       const payload = { ...data, timestamp: timestamp };
       try {
-        await axios.post("http://localhost:8800/submit", payload);
+        await axios.post(
+          "http://localhost:8800/submit/" + selectedSurvey,
+          payload
+        );
         alert("Completed");
         navigate("/");
       } catch (err) {

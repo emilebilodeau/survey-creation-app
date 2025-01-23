@@ -102,7 +102,7 @@ app.post("/createsurvey", (req, res) => {
 
       const columnDefinition = columns.join(", ");
       const createAnswerTable = `
-      CREATE TABLE test_answers_survey${tableNumber} (
+      CREATE TABLE answers_test_survey${tableNumber} (
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         timestamp FLOAT,
         ${columnDefinition}
@@ -122,12 +122,12 @@ app.post("/createsurvey", (req, res) => {
 });
 
 // Home.tsx endpoints
-app.get('/tables', (req, res) => {
+app.get("/tables", (req, res) => {
   db.query("SHOW TABLES LIKE 'test_survey%'", (err, data) => {
-    if (err) throw err
-    return res.json(data)
+    if (err) throw err;
+    return res.json(data);
   });
-})
+});
 
 // TODO: for all the endpoints going forward, look into "Preparing Queries" in the mysql github page
 // specifically how to use this syntax: "SELECT * FROM ?? WHERE ?? = ?"
@@ -177,7 +177,7 @@ app.get("/getrow/:id", (req, res) => {
   });
 });
 
-// NOTE: also subject to a lot of change during survey creation implementation
+// NOTE: subject to a lot of change during survey creation implementation
 app.put("/update/:id", (req, res) => {
   const id = req.params.id;
   const q = `UPDATE survey_answers 
@@ -221,26 +221,36 @@ app.put("/update/:id", (req, res) => {
 });
 
 // Form.tsx endpoints
-// TODO: find a better way to do this during survey creation implementation
-app.post("/submit", (req, res) => {
-  const q = `INSERT INTO survey_answers (timestamp, mood, sleep, sleepDisruption, exercise, outside, 
-        meditation, breakRoutine, socialInteraction, rumination, drank, extra) VALUES (?)`;
-  const values = [
-    req.body.timestamp,
-    req.body.mood,
-    req.body.sleep,
-    req.body.sleepDisruption,
-    req.body.exercise,
-    req.body.outside,
-    req.body.meditation,
-    req.body.breakRoutine,
-    req.body.socialInteraction,
-    req.body.rumination,
-    req.body.drank,
-    req.body.extra,
-  ];
+app.get("/questions/:table", (req, res) => {
+  const q = "SELECT * FROM ??";
+  const table = req.params.table;
+  db.query(q, [table], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
 
-  db.query(q, [values], (err, data) => {
+app.post("/submit/:table", (req, res) => {
+  const q = `INSERT INTO ?? (??) VALUES (?)`;
+  const table = `answers_${req.params.table}`;
+  const columns = [];
+  const values = [];
+
+  // need to extract the timestamp from the body, and set it a the top of the values list
+  const { timestamp, ...body } = req.body;
+
+  // key-value order is guaranteed to remain intact when iterating using Object.entries as of ES6
+  for (const [k, v] of Object.entries(body)) {
+    columns.push(k);
+    values.push(v);
+  }
+
+  columns.unshift("timestamp");
+  values.unshift(timestamp);
+
+  db.query(q, [table, columns, values], (err, data) => {
     if (err) {
       return res.json(err);
     }

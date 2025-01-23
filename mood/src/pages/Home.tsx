@@ -19,7 +19,12 @@ const Home = () => {
       const table = await axios.get("http://localhost:8800/tables");
       setQuestionnaireList(table.data);
       if (table.data.length > 0) {
-        if (typeof cookies.selectedSurvey === "undefined") {
+        if (
+          typeof cookies.selectedSurvey === "undefined" ||
+          // TODO: this logic will need to be deleted. when implementing delete survey feature, will need...
+          // ... to remove cookie. this is currently only a temporary fix and doesn't work perfectly
+          table.data.length === 1
+        ) {
           // this grab the name of the first survey in the list of surveys as a default
           const [, firstSurvey] = Object.entries(table.data[0])[0];
           setCookie("selectedSurvey", firstSurvey, {
