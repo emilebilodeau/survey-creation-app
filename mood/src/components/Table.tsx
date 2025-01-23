@@ -7,15 +7,18 @@ interface Props {
   // both inputs are expected to be an array of objects, whose key values can vary
   rows: { [key: string]: rowPossibleValue }[];
   cols: { [key: string]: string }[];
+  selectedSurvey: string;
 }
 
-const Table = ({ rows, cols }: Props) => {
+const Table = ({ rows, cols, selectedSurvey }: Props) => {
   const handleDelete = async (event: any) => {
     if (confirm("Are you sure you want to delete this record?")) {
       const rowId = event.target.getAttribute("row-id");
 
       try {
-        await axios.delete("http://localhost:8800/delete/" + rowId);
+        await axios.delete(
+          `http://localhost:8800/delete/${selectedSurvey}/${rowId}`
+        );
         console.log(`deleted ${rowId}`);
         window.location.reload();
       } catch (err) {

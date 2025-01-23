@@ -26,7 +26,10 @@ function App() {
             path="/form"
             element={<Form selectedSurvey={cookies.selectedSurvey} />}
           ></Route>
-          <Route path="/data" element={<Data />}></Route>
+          <Route
+            path="/data"
+            element={<Data selectedSurvey={cookies.selectedSurvey} />}
+          ></Route>
           <Route path="/update/:id" element={<Update />}></Route>
           <Route path="/createsurvey" element={<Survey />}></Route>
         </Routes>

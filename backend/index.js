@@ -133,9 +133,10 @@ app.get("/tables", (req, res) => {
 // specifically how to use this syntax: "SELECT * FROM ?? WHERE ?? = ?"
 
 // Data.tsx endpoints
-app.get("/getdata", (req, res) => {
-  const q = "SELECT * FROM survey_answers ORDER BY timestamp";
-  db.query(q, (err, data) => {
+app.get("/getdata/:table", (req, res) => {
+  const q = "SELECT * FROM ?? ORDER BY timestamp";
+  const table = `answers_${req.params.table}`;
+  db.query(q, [table], (err, data) => {
     if (err) {
       return res.json(err);
     }
@@ -143,9 +144,10 @@ app.get("/getdata", (req, res) => {
   });
 });
 
-app.get("/getcol", (req, res) => {
-  const q = "DESCRIBE survey_answers";
-  db.query(q, (err, data) => {
+app.get("/getcol/:table", (req, res) => {
+  const q = "DESCRIBE ??";
+  const table = `answers_${req.params.table}`;
+  db.query(q, [table], (err, data) => {
     if (err) {
       return res.json(err);
     }
@@ -154,10 +156,11 @@ app.get("/getcol", (req, res) => {
 });
 
 // Table.tsx endpoints
-app.delete("/delete/:id", (req, res) => {
+app.delete("/delete/:table/:id", (req, res) => {
+  const table = `answers_${req.params.table}`;
   const id = req.params.id;
-  const q = "DELETE FROM survey_answers WHERE id = ?";
-  db.query(q, [id], (err, data) => {
+  const q = "DELETE FROM ?? WHERE id = ?";
+  db.query(q, [table, id], (err, data) => {
     if (err) {
       return json.son(err);
     }
