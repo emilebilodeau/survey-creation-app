@@ -10,9 +10,7 @@ import { useCookies } from "react-cookie";
 // TODO: come back later and fix every "any" type assignment
 
 function App() {
-  // NOTE: don't trust client-side provided data, ensure to sanatize or check the cookie before using
-  // NOTE: so far, the way seems to be passing the cookie setting as a prop to the components...
-  // ... Navbar -> Form  / Navbar -> Data -> Table -> Update
+  // TODO: don't trust client-side provided data, implement sanitization/check cookie before using
   // NOTE: need some kind of logic if there are no existed surveys therefore no cookies
   const [cookies] = useCookies(["selectedSurvey"]);
 
@@ -30,7 +28,10 @@ function App() {
             path="/data"
             element={<Data selectedSurvey={cookies.selectedSurvey} />}
           ></Route>
-          <Route path="/update/:id" element={<Update />}></Route>
+          <Route
+            path="/update/:id"
+            element={<Update selectedSurvey={cookies.selectedSurvey} />}
+          ></Route>
           <Route path="/createsurvey" element={<Survey />}></Route>
         </Routes>
       </div>

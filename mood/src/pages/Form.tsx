@@ -10,7 +10,7 @@ interface myData {
   [key: string]: string | number;
 }
 
-// TODO: change id for items to be called QId for clarity
+// TODO: change id for items to be called QId for clarity?
 interface Item {
   question: string;
   type: string;
@@ -18,7 +18,6 @@ interface Item {
   alias: string;
 }
 
-// TODO: merge Form.tsx and Update.tsx together
 // TODO: delete id, names (and maybe classNames?) in question components where they are not used...
 // ...(only LinearQ has a useful id it seems like so far)
 const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {

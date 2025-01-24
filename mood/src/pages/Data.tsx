@@ -25,9 +25,6 @@ const Data = ({ selectedSurvey }: { selectedSurvey: string }) => {
     fetchData();
   }, []);
 
-  console.log(rows);
-  console.log(cols);
-
   return <Table rows={rows} cols={cols} selectedSurvey={selectedSurvey} />;
 };
 
