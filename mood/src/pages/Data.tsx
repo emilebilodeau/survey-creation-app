@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Table from "../components/Table";
+import NoSurvey from "../components/NoSurvey";
 
 const Data = ({ selectedSurvey }: { selectedSurvey: string }) => {
+  if (!selectedSurvey) {
+    return <NoSurvey />;
+  }
+
   const [rows, setRows] = useState([]);
   const [cols, setCols] = useState([]);
 

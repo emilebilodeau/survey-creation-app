@@ -4,6 +4,7 @@ import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
 import LinearQ from "../components/LinearQ";
 import NumberQ from "../components/NumberQ";
+import NoSurvey from "../components/NoSurvey";
 import { useNavigate } from "react-router-dom";
 
 interface myData {
@@ -21,6 +22,10 @@ interface Item {
 // TODO: delete id, names (and maybe classNames?) in question components where they are not used...
 // ...(only LinearQ has a useful id it seems like so far)
 const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {
+  if (!selectedSurvey) {
+    return <NoSurvey />;
+  }
+
   const [questions, setQuestions] = useState<Item[]>([]);
   const [update] = useState(false);
   const [data, setData] = useState({});

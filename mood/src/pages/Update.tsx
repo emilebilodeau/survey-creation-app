@@ -6,6 +6,7 @@ import TextQ from "../components/TextQ";
 import LinearQ from "../components/LinearQ";
 import NumberQ from "../components/NumberQ";
 import DateQ from "../components/DateQ";
+import NoSurvey from "../components/NoSurvey";
 
 interface myData {
   [key: string]: string | number;
@@ -19,6 +20,10 @@ interface Item {
 }
 
 const Update = ({ selectedSurvey }: { selectedSurvey: string }) => {
+  if (!selectedSurvey) {
+    return <NoSurvey />;
+  }
+
   const [questions, setQuestions] = useState<Item[]>([]);
   const [update, setUpdate] = useState(false);
   const [data, setData] = useState({});
