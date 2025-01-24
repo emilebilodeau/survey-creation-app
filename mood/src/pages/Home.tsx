@@ -83,6 +83,20 @@ const Home = () => {
     return output;
   };
 
+  const renderSelected = () => {
+    const output: JSX.Element[] = [];
+    if (cookies.selectedSurvey) {
+      const surveyName: string = `Survey ${cookies.selectedSurvey.slice(-1)}`;
+      output.push(
+        <div key="selected" className="survey-choice">
+          <p>Selected survey: {surveyName}</p>
+          <button className="general-button">Delete Survey</button>
+        </div>
+      );
+    }
+    return output;
+  };
+
   return (
     <>
       <div className="home-box">
@@ -104,6 +118,7 @@ const Home = () => {
             {renderChoice()}
           </div>
         </Popup>
+        {renderSelected()}
       </div>
     </>
   );

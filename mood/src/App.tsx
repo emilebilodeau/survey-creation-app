@@ -11,7 +11,6 @@ import { useCookies } from "react-cookie";
 
 function App() {
   // TODO: don't trust client-side provided data, implement sanitization/check cookie before using
-  // NOTE: need some kind of logic if there are no existed surveys therefore no cookies
   const [cookies] = useCookies(["selectedSurvey"]);
 
   return (
