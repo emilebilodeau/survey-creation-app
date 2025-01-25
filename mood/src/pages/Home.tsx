@@ -7,7 +7,7 @@ import "reactjs-popup/dist/index.css";
 import { useCookies } from "react-cookie";
 
 const Home = () => {
-  const [questionnaireList, setQuestionnaireList] = useState<Object[]>([]);
+  const [questionnaireList, setQuestionnaireList] = useState<string[]>([]);
   // selected questionnaire
   const [cookies, setCookie, removeCookie] = useCookies(["selectedSurvey"]);
 
@@ -17,17 +17,15 @@ const Home = () => {
   const fetchTables = async () => {
     try {
       const table = await axios.get("http://localhost:8800/tables");
-      setQuestionnaireList(table.data);
-      if (table.data.length > 0) {
-        if (
-          typeof cookies.selectedSurvey === "undefined" ||
-          // TODO: this logic will need to be deleted. when implementing delete survey feature, will need...
-          // ... to remove cookie. this is currently only a temporary fix and doesn't work perfectly
-          table.data.length === 1
-        ) {
-          // this grab the name of the first survey in the list of surveys as a default
-          const [, firstSurvey] = Object.entries(table.data[0])[0];
-          setCookie("selectedSurvey", firstSurvey, {
+      const cleanedList: string[] = [];
+      table.data.forEach((obj: Object) => {
+        const [, surveyName] = Object.entries(obj)[0];
+        cleanedList.push(surveyName);
+      });
+      setQuestionnaireList(cleanedList);
+      if (cleanedList.length > 0) {
+        if (cookies.selectedSurvey === "undefined") {
+          setCookie("selectedSurvey", cleanedList[0], {
             path: "/",
             maxAge: 86400000, // a day
           });
@@ -64,14 +62,14 @@ const Home = () => {
           {choices}
         </select>
       );
-      questionnaireList.forEach((obj) => {
-        const [, surveyName] = Object.entries(obj)[0];
+      questionnaireList.forEach((survey) => {
         // NOTE: this is okay for now because survey names are generated automatically...
-        // ... this might need to change if allowing the user to name their surveys
-        const surveyNumber: string = surveyName.slice(-1);
+        // ... this will need to change if allowing the user to name their surveys
+        const surveyNumber = survey.slice(-1);
+        const cleanedName = `Survey ${surveyNumber}`;
         choices.push(
-          <option value={surveyName} key={`option-${surveyNumber}`}>
-            Survey {surveyNumber}
+          <option value={survey} key={`option-${cleanedName}`}>
+            {cleanedName}
           </option>
         );
       });
@@ -83,14 +81,45 @@ const Home = () => {
     return output;
   };
 
+  const handleDelete = async () => {
+    if (
+      confirm(
+        "Are you sure you want to delete this survey? This will delete form questions and all data"
+      )
+    ) {
+      try {
+        await axios.delete(
+          "http://localhost:8800/deletetable/" + cookies.selectedSurvey
+        );
+        const updatedList = questionnaireList.filter(
+          (questionnaire) => questionnaire !== cookies.selectedSurvey
+        );
+        setQuestionnaireList(updatedList);
+        if (updatedList.length > 0) {
+          setCookie("selectedSurvey", updatedList[0], {
+            path: "/",
+            maxAge: 86400000, // a day
+          });
+        } else {
+          setCookie("selectedSurvey", "undefined");
+        }
+        alert("Deletion complete");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   const renderSelected = () => {
     const output: JSX.Element[] = [];
-    if (cookies.selectedSurvey) {
+    if (cookies.selectedSurvey !== "undefined") {
       const surveyName: string = `Survey ${cookies.selectedSurvey.slice(-1)}`;
       output.push(
         <div key="selected" className="survey-choice">
           <p>Selected survey: {surveyName}</p>
-          <button className="general-button">Delete Survey</button>
+          <button className="general-button" onClick={handleDelete}>
+            Delete Questionnaire
+          </button>
         </div>
       );
     }

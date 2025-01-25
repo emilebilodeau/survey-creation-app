@@ -93,6 +93,24 @@ app.get("/tables", (req, res) => {
   });
 });
 
+app.delete("/deletetable/:table", (req, res) => {
+  const q = "DROP TABLE ??";
+  const questionTable = req.params.table;
+  // first query: delete questions table
+  db.query(q, [questionTable], (err) => {
+    if (err) throw err;
+    const answerTable = `answers_${questionTable}`;
+    // second query: delete corresponding answer table
+    db.query(q, [answerTable], (err, data) => {
+      if (err) {
+        return res.json(err);
+      }
+      console.log("Survey deleted");
+      return res.json(data);
+    });
+  });
+});
+
 // Data.tsx endpoints
 app.get("/getdata/:table", (req, res) => {
   const q = "SELECT * FROM ?? ORDER BY timestamp";

@@ -4,7 +4,7 @@ import Table from "../components/Table";
 import NoSurvey from "../components/NoSurvey";
 
 const Data = ({ selectedSurvey }: { selectedSurvey: string }) => {
-  if (!selectedSurvey) {
+  if (selectedSurvey === "undefined") {
     return <NoSurvey />;
   }
 

@@ -22,7 +22,7 @@ interface Item {
 // TODO: delete id, names (and maybe classNames?) in question components where they are not used...
 // ...(only LinearQ has a useful id it seems like so far)
 const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {
-  if (!selectedSurvey) {
+  if (selectedSurvey === "undefined") {
     return <NoSurvey />;
   }
 
