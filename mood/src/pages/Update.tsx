@@ -20,7 +20,7 @@ interface Item {
 }
 
 const Update = ({ selectedSurvey }: { selectedSurvey: string }) => {
-  if (selectedSurvey === "undefined") {
+  if (selectedSurvey === "undefined" || !selectedSurvey) {
     return <NoSurvey />;
   }
 

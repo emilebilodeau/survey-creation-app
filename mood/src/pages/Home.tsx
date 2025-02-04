@@ -112,7 +112,10 @@ const Home = () => {
 
   const renderSelected = () => {
     const output: JSX.Element[] = [];
-    if (cookies.selectedSurvey !== "undefined") {
+    if (
+      cookies.selectedSurvey !== "undefined" &&
+      typeof cookies.selectedSurvey === "string"
+    ) {
       const surveyName: string = `Survey ${cookies.selectedSurvey.slice(-1)}`;
       output.push(
         <div key="selected" className="survey-choice">
