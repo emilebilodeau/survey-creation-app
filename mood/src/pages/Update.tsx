@@ -81,7 +81,7 @@ const Update = ({ selectedSurvey }: { selectedSurvey: string }) => {
     fetchRow();
   }, []);
 
-  const submitForm = async (e: any) => {
+  const submitForm = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     console.log(data);

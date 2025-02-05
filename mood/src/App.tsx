@@ -7,8 +7,6 @@ import Update from "./pages/Update";
 import Survey from "./pages/Survey";
 import { useCookies } from "react-cookie";
 
-// TODO: come back later and fix every "any" type assignment
-
 function App() {
   // TODO: don't trust client-side provided data, implement sanitization/check cookie before using
   const [cookies] = useCookies(["selectedSurvey"]);

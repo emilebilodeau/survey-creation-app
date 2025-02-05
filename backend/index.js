@@ -14,6 +14,8 @@ const db = mysql.createConnection({
   database: "mood_test",
 });
 
+// NOTE: entire backend will need to be reworked at a further time when redoing database design
+
 // creates a new survey table and an associated answer table based on the list of questions created
 app.post("/createsurvey", (req, res) => {
   // first query: checking how many surveys exists

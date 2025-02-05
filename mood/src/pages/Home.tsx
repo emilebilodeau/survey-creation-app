@@ -24,7 +24,7 @@ const Home = () => {
       });
       setQuestionnaireList(cleanedList);
       if (cleanedList.length > 0) {
-        if (cookies.selectedSurvey === "undefined") {
+        if (cookies.selectedSurvey === "undefined" || !cookies.selectedSurvey) {
           setCookie("selectedSurvey", cleanedList[0], {
             path: "/",
             maxAge: 86400000, // a day

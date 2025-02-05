@@ -11,7 +11,6 @@ interface myData {
   [key: string]: string | number;
 }
 
-// TODO: change id for items to be called QId for clarity?
 interface Item {
   question: string;
   type: string;
@@ -62,7 +61,7 @@ const Form = ({ selectedSurvey }: { selectedSurvey: string }) => {
     return false;
   };
 
-  const submitForm = async (e: any) => {
+  const submitForm = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     console.log(data);

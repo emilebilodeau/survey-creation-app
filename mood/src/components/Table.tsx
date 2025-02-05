@@ -11,9 +11,9 @@ interface Props {
 }
 
 const Table = ({ rows, cols, selectedSurvey }: Props) => {
-  const handleDelete = async (event: any) => {
+  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (confirm("Are you sure you want to delete this record?")) {
-      const rowId = event.target.getAttribute("row-id");
+      const rowId = event.currentTarget.getAttribute("row-id");
 
       try {
         await axios.delete(
