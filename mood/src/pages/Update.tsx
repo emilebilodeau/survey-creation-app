@@ -3,9 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import YesNoQ from "../components/YesNoQ";
 import TextQ from "../components/TextQ";
-import TenQ from "../components/TenQ";
+import LinearQ from "../components/LinearQ";
 import NumberQ from "../components/NumberQ";
 import DateQ from "../components/DateQ";
+import NoSurvey from "../components/NoSurvey";
 
 interface myData {
   [key: string]: string | number;
@@ -18,76 +19,28 @@ interface Item {
   alias: string;
 }
 
-const Update = () => {
-  const questions: Item[] = [
-    {
-      question: "How did you feel overall today",
-      type: "linear",
-      id: 1,
-      alias: "mood",
-    },
-    { question: "Hours of sleep", type: "number", id: 2, alias: "sleep" },
-    {
-      question: "Disrupted Sleep",
-      type: "yesNo",
-      id: 3,
-      alias: "sleepDisruption",
-    },
-    {
-      question: "Amount of intentional exercise in minutes",
-      type: "number",
-      id: 4,
-      alias: "exercise",
-    },
-    {
-      question: "Spent at least 1 hour outside the house",
-      type: "yesNo",
-      id: 5,
-      alias: "outside",
-    },
-    {
-      question: "Meditated atleast 5 minutes",
-      type: "yesNo",
-      id: 6,
-      alias: "meditation",
-    },
-    {
-      question: "Did at least 1 thing outside of routine",
-      type: "yesNo",
-      id: 7,
-      alias: "breakRoutine",
-    },
-    {
-      question: "Had a meaningful social interaction",
-      type: "yesNo",
-      id: 8,
-      alias: "socialInteraction",
-    },
-    {
-      question: "Estimate of time spent ruminating in minutes",
-      type: "number",
-      id: 9,
-      alias: "rumination",
-    },
-    {
-      question: "Drank more than 3 drinks the day before",
-      type: "yesNo",
-      id: 10,
-      alias: "drank",
-    },
-    {
-      question: "Extra (any notable events, good or bad?)",
-      type: "text",
-      id: 11,
-      alias: "extra",
-    },
-  ];
+const Update = ({ selectedSurvey }: { selectedSurvey: string }) => {
+  if (selectedSurvey === "undefined" || !selectedSurvey) {
+    return <NoSurvey />;
+  }
 
+  const [questions, setQuestions] = useState<Item[]>([]);
   const [update, setUpdate] = useState(false);
   const [data, setData] = useState({});
 
   const updateData = (newData: myData) => {
     setData(newData);
+  };
+
+  const getQuestions = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8800/questions/" + selectedSurvey
+      );
+      setQuestions(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const navigate = useNavigate();
@@ -109,7 +62,9 @@ const Update = () => {
 
   const fetchRow = async () => {
     try {
-      const response = await axios.get("http://localhost:8800/getrow/" + id);
+      const response = await axios.get(
+        `http://localhost:8800/getrow/${selectedSurvey}/${id}`
+      );
       if (response.data) {
         const row = response.data[0];
         const { id, ...cleanedRow } = row;
@@ -122,10 +77,11 @@ const Update = () => {
   };
 
   useEffect(() => {
+    getQuestions();
     fetchRow();
   }, []);
 
-  const submitForm = async (e: any) => {
+  const submitForm = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     console.log(data);
@@ -137,7 +93,10 @@ const Update = () => {
       if (confirm("Confirm data update?")) {
         // in milliseconds
         try {
-          await axios.put("http://localhost:8800/update/" + id, data);
+          await axios.put(
+            `http://localhost:8800/update/${selectedSurvey}/${id}`,
+            data
+          );
           alert("Completed");
           navigate("/data");
         } catch (err) {
@@ -178,7 +137,7 @@ const Update = () => {
             );
           } else if (item.type === "linear") {
             return (
-              <TenQ
+              <LinearQ
                 question={item.question}
                 data={data}
                 updateData={updateData}

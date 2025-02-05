@@ -5,20 +5,31 @@ import Navbar from "./components/Navbar";
 import Data from "./pages/Data";
 import Update from "./pages/Update";
 import Survey from "./pages/Survey";
-
-// TODO: come back later and fix every "any" type assignment
+import { useCookies } from "react-cookie";
 
 function App() {
+  // TODO: don't trust client-side provided data, implement sanitization/check cookie before using
+  const [cookies] = useCookies(["selectedSurvey"]);
+
   return (
     <>
       <Navbar />
       <div className="container-fluid">
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/form" element={<Form />}></Route>
-          <Route path="/data" element={<Data />}></Route>
-          <Route path="/update/:id" element={<Update />}></Route>
-          <Route path="/questionnaire" element={<Survey />}></Route>
+          <Route
+            path="/form"
+            element={<Form selectedSurvey={cookies.selectedSurvey} />}
+          ></Route>
+          <Route
+            path="/data"
+            element={<Data selectedSurvey={cookies.selectedSurvey} />}
+          ></Route>
+          <Route
+            path="/update/:id"
+            element={<Update selectedSurvey={cookies.selectedSurvey} />}
+          ></Route>
+          <Route path="/createsurvey" element={<Survey />}></Route>
         </Routes>
       </div>
     </>

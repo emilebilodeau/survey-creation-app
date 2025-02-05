@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 
 interface Props {
   question: string;
-  data: { [key: string]: string | Number };
+  data: { [key: string]: number };
   updateData: Function;
   alias: string;
   id: number;
   update: boolean;
 }
 
-const TenQ = ({ question, data, updateData, alias, id, update }: Props) => {
+const LinearQ = ({ question, data, updateData, alias, id, update }: Props) => {
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const TenQ = ({ question, data, updateData, alias, id, update }: Props) => {
     }
   }, [update]);
 
-  const handleRatingClick = (value: any) => {
+  const handleRatingClick = (value: number) => {
     // removes the "active" color from previous button, if there is one
     if (rating) {
       let previous = document.getElementById(`${rating}-button-${id}`);
@@ -61,4 +61,4 @@ const TenQ = ({ question, data, updateData, alias, id, update }: Props) => {
   );
 };
 
-export default TenQ;
+export default LinearQ;

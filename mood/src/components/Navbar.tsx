@@ -16,7 +16,7 @@ const Navbar = () => {
 
 // this function is essentially just used to add the active class to the Link element
 // of the current page. it uses react hooks to retrieve current url
-function CustomLink({ to, children }: { to: any; children: any }) {
+function CustomLink({ to, children }: { to: string; children: string }) {
   const resolvedPath = useResolvedPath(to);
   const isActive = useMatch({ path: resolvedPath.pathname, end: true });
 
