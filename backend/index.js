@@ -14,18 +14,51 @@ const db = mysql.createConnection({
   database: "mood_test",
 });
 
-// NOTE: entire backend will need to be reworked at a further time when redoing database design
+// NOTE: entire backend will need to be reworked at a further time when doing database redesign
+db.query("SHOW TABLES LIKE 'master_table'", (err, result) => {
+  if (err) throw err;
+  if (result.length === 0) {
+    const createInitialTable = `
+    CREATE TABLE master_table (
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      survey_name VARCHAR (45),
+      survey_clean VARCHAR (45),
+      survey_answers VARCHAR (45),
+      active BOOLEAN
+    )
+    `;
+    db.query(createInitialTable, (err) => {
+      if (err) throw err;
+      console.log("Master table created");
+    });
+  } else {
+    console.log("Master table already exists");
+  }
+});
 
 // creates a new survey table and an associated answer table based on the list of questions created
 app.post("/createsurvey", (req, res) => {
   // first query: checking how many surveys exists
-  db.query("SHOW TABLES LIKE 'test_survey%'", (err, result) => {
+  db.query("SELECT * FROM master_table", (err, result) => {
     if (err) throw err;
-    // the survey name is created automatically by incrementing a number at the end of the name
-    // using the length of the list of existing surveys
+    // the survey names are created automatically by incrementing a number at the end of the name
+    // using length of the list of existing surveys
     const tableNumber = result.length + 1;
+    const survey = `survey_${tableNumber}`;
+    const surveyClean = `Survey ${tableNumber}`;
+    const surveyAnswers = `survey_${tableNumber}_answers`;
+
+    const insertSurvey =
+      "INSERT INTO master_table (survey_name, survey_clean, survey_answers, active) VALUES (?, ?, ?, ?)";
+
+    // second query: insert new survey info into master table
+    db.query(insertSurvey, [survey, surveyClean, surveyAnswers, 1], (err) => {
+      if (err) throw err;
+      console.log("New survey inserted into master table");
+    });
+
     const createSurveyTable = `
-    CREATE TABLE test_survey${tableNumber} (
+    CREATE TABLE ${survey} (
       id INT NOT NULL PRIMARY KEY,
       question VARCHAR(255),
       type VARCHAR(45),
@@ -33,12 +66,12 @@ app.post("/createsurvey", (req, res) => {
     )
     `;
 
-    // second query: create the survey table
+    // third query: create the survey table
     db.query(createSurveyTable, (err) => {
       if (err) throw err;
       console.log("New survey created");
       // inserting multiple rows of data
-      const insertQuestions = `INSERT INTO test_survey${tableNumber} (id, question, type, alias) VALUES ?`;
+      const insertQuestions = `INSERT INTO ${survey} (id, question, type, alias) VALUES ?`;
       const questions = [];
       const columns = [];
       // this will also be used to build the query for the creation of the answers table
@@ -60,7 +93,7 @@ app.post("/createsurvey", (req, res) => {
         }
       });
 
-      // third query: insert the questions into survey table
+      // fourth query: insert the questions into survey table
       db.query(insertQuestions, [questions], (err) => {
         if (err) throw err;
         console.log("Survey questions successfully added");
@@ -68,14 +101,14 @@ app.post("/createsurvey", (req, res) => {
 
       const columnDefinition = columns.join(", ");
       const createAnswerTable = `
-      CREATE TABLE answers_test_survey${tableNumber} (
+      CREATE TABLE ${surveyAnswers} (
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         timestamp FLOAT,
         ${columnDefinition}
       )
     `;
 
-      // fourth query: create survey answer table
+      // fifth query: create survey answer table
       db.query(createAnswerTable, (err, data) => {
         if (err) {
           return res.json(err);
@@ -89,7 +122,7 @@ app.post("/createsurvey", (req, res) => {
 
 // Home.tsx endpoints
 app.get("/tables", (req, res) => {
-  db.query("SHOW TABLES LIKE 'test_survey%'", (err, data) => {
+  db.query("SELECT * FROM master_table", (err, data) => {
     if (err) throw err;
     return res.json(data);
   });
@@ -116,7 +149,7 @@ app.delete("/deletetable/:table", (req, res) => {
 // Data.tsx endpoints
 app.get("/getdata/:table", (req, res) => {
   const q = "SELECT * FROM ?? ORDER BY timestamp";
-  const table = `answers_${req.params.table}`;
+  const table = `${req.params.table}_answers`;
   db.query(q, [table], (err, data) => {
     if (err) {
       return res.json(err);
@@ -127,7 +160,7 @@ app.get("/getdata/:table", (req, res) => {
 
 app.get("/getcol/:table", (req, res) => {
   const q = "DESCRIBE ??";
-  const table = `answers_${req.params.table}`;
+  const table = `${req.params.table}_answers`;
   db.query(q, [table], (err, data) => {
     if (err) {
       return res.json(err);
@@ -138,7 +171,7 @@ app.get("/getcol/:table", (req, res) => {
 
 // Table.tsx endpoints
 app.delete("/delete/:table/:id", (req, res) => {
-  const table = `answers_${req.params.table}`;
+  const table = `${req.params.table}_answers`;
   const id = req.params.id;
   const q = "DELETE FROM ?? WHERE id = ?";
   db.query(q, [table, id], (err, data) => {
@@ -151,7 +184,7 @@ app.delete("/delete/:table/:id", (req, res) => {
 
 // Update.tsx endpoints
 app.get("/getrow/:table/:id", (req, res) => {
-  const table = `answers_${req.params.table}`;
+  const table = `${req.params.table}_answers`;
   const id = req.params.id;
   const q = "SELECT * FROM ?? WHERE id = ?";
   db.query(q, [table, id], (err, data) => {
@@ -165,7 +198,7 @@ app.get("/getrow/:table/:id", (req, res) => {
 app.put("/update/:table/:id", (req, res) => {
   // (?) is not needed here because SET and WHERE are both formatted using singular objects
   const q = "UPDATE ?? SET ? WHERE ?";
-  const table = `answers_${req.params.table}`;
+  const table = `${req.params.table}_answers`;
   const id = req.params.id;
 
   const whereclause = {
@@ -196,7 +229,7 @@ app.get("/questions/:table", (req, res) => {
 
 app.post("/submit/:table", (req, res) => {
   const q = `INSERT INTO ?? (??) VALUES (?)`;
-  const table = `answers_${req.params.table}`;
+  const table = `${req.params.table}_answers`;
   const columns = [];
   const values = [];
 
