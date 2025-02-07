@@ -122,20 +122,32 @@ app.post("/createsurvey", (req, res) => {
 
 // Home.tsx endpoints
 app.get("/tables", (req, res) => {
-  db.query("SELECT * FROM master_table", (err, data) => {
-    if (err) throw err;
-    return res.json(data);
-  });
+  db.query(
+    "SELECT survey_name, survey_clean FROM master_table WHERE active = 1",
+    (err, data) => {
+      if (err) throw err;
+      return res.json(data);
+    }
+  );
 });
 
 app.delete("/deletetable/:table", (req, res) => {
-  const q = "DROP TABLE ??";
   const questionTable = req.params.table;
-  // first query: delete questions table
+  const setInactive =
+    "UPDATE master_table SET active = 0 WHERE survey_name = ?";
+
+  // first query: soft delete survey in master table
+  db.query(setInactive, [questionTable], (err) => {
+    if (err) throw err;
+    console.log(`Survey ${questionTable} set as inactive`);
+  });
+
+  const q = "DROP TABLE ??";
+  // second query: delete questions table
   db.query(q, [questionTable], (err) => {
     if (err) throw err;
-    const answerTable = `answers_${questionTable}`;
-    // second query: delete corresponding answer table
+    const answerTable = `${questionTable}_answers`;
+    // third query: delete corresponding answer table
     db.query(q, [answerTable], (err, data) => {
       if (err) {
         return res.json(err);

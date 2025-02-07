@@ -15,24 +15,17 @@ const Home = () => {
   const [questionnaireList, setQuestionnaireList] = useState<Entries[]>([]);
   // selected questionnaire
   const [cookies, setCookie, removeCookie] = useCookies(["selectedSurvey"]);
-  console.log(cookies.selectedSurvey);
 
   const ref = useRef<PopupActions | null>(null);
   const closeTooltip = () => ref.current?.close();
 
   const fetchTables = async () => {
     try {
-      const table = await axios.get("http://localhost:8800/tables");
-      const cleanedList: Entries[] = [];
-      table.data.forEach((obj: any) => {
-        const { active, id, survey_answers, ...cleanObject } = obj;
-        cleanedList.push(cleanObject);
-      });
-
-      setQuestionnaireList(cleanedList);
-      if (cleanedList.length > 0) {
+      const res = await axios.get("http://localhost:8800/tables");
+      setQuestionnaireList(res.data);
+      if (res.data.length > 0) {
         if (cookies.selectedSurvey === "undefined" || !cookies.selectedSurvey) {
-          setCookie("selectedSurvey", cleanedList[0].survey_name, {
+          setCookie("selectedSurvey", res.data[0].survey_name, {
             path: "/",
             maxAge: 86400000, // a day
           });
@@ -73,7 +66,7 @@ const Home = () => {
         choices.push(
           <option
             value={survey.survey_name}
-            key={`option-${survey.survey_clean}`}
+            key={`option-${survey.survey_name}`}
           >
             {survey.survey_clean}
           </option>
@@ -87,7 +80,6 @@ const Home = () => {
     return output;
   };
 
-  // TODO: fix this function and the endpoint
   const handleDelete = async () => {
     if (
       confirm(
@@ -99,11 +91,12 @@ const Home = () => {
           "http://localhost:8800/deletetable/" + cookies.selectedSurvey
         );
         const updatedList = questionnaireList.filter(
-          (questionnaire) => questionnaire !== cookies.selectedSurvey
+          (questionnaire) =>
+            questionnaire.survey_name !== cookies.selectedSurvey
         );
         setQuestionnaireList(updatedList);
         if (updatedList.length > 0) {
-          setCookie("selectedSurvey", updatedList[0], {
+          setCookie("selectedSurvey", updatedList[0].survey_name, {
             path: "/",
             maxAge: 86400000, // a day
           });
