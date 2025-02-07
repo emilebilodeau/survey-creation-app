@@ -6,10 +6,16 @@ import { PopupActions } from "reactjs-popup/dist/types";
 import "reactjs-popup/dist/index.css";
 import { useCookies } from "react-cookie";
 
+interface Entries {
+  survey_name: string;
+  survey_clean: string;
+}
+
 const Home = () => {
-  const [questionnaireList, setQuestionnaireList] = useState<string[]>([]);
+  const [questionnaireList, setQuestionnaireList] = useState<Entries[]>([]);
   // selected questionnaire
   const [cookies, setCookie, removeCookie] = useCookies(["selectedSurvey"]);
+  console.log(cookies.selectedSurvey);
 
   const ref = useRef<PopupActions | null>(null);
   const closeTooltip = () => ref.current?.close();
@@ -17,15 +23,16 @@ const Home = () => {
   const fetchTables = async () => {
     try {
       const table = await axios.get("http://localhost:8800/tables");
-      const cleanedList: string[] = [];
-      table.data.forEach((obj: Object) => {
-        const [, surveyName] = Object.entries(obj)[0];
-        cleanedList.push(surveyName);
+      const cleanedList: Entries[] = [];
+      table.data.forEach((obj: any) => {
+        const { active, id, survey_answers, ...cleanObject } = obj;
+        cleanedList.push(cleanObject);
       });
+
       setQuestionnaireList(cleanedList);
       if (cleanedList.length > 0) {
         if (cookies.selectedSurvey === "undefined" || !cookies.selectedSurvey) {
-          setCookie("selectedSurvey", cleanedList[0], {
+          setCookie("selectedSurvey", cleanedList[0].survey_name, {
             path: "/",
             maxAge: 86400000, // a day
           });
@@ -62,14 +69,13 @@ const Home = () => {
           {choices}
         </select>
       );
-      questionnaireList.forEach((survey) => {
-        // NOTE: this is okay for now because survey names are generated automatically...
-        // ... this will need to change if allowing the user to name their surveys
-        const surveyNumber = survey.slice(-1);
-        const cleanedName = `Survey ${surveyNumber}`;
+      questionnaireList.forEach((survey: Entries) => {
         choices.push(
-          <option value={survey} key={`option-${cleanedName}`}>
-            {cleanedName}
+          <option
+            value={survey.survey_name}
+            key={`option-${survey.survey_clean}`}
+          >
+            {survey.survey_clean}
           </option>
         );
       });
@@ -81,6 +87,7 @@ const Home = () => {
     return output;
   };
 
+  // TODO: fix this function and the endpoint
   const handleDelete = async () => {
     if (
       confirm(
